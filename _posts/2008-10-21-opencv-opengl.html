@@ -1,0 +1,44 @@
+---
+layout: post
+status: publish
+published: true
+title: OpenCV & OpenGL
+author:
+  display_name: damiles
+  login: admin
+  email: david.millan@damiles.com
+  url: ''
+author_login: admin
+author_email: david.millan@damiles.com
+wordpress_id: 9
+wordpress_url: http://blog.damiles.com/?p=9
+date: '2008-10-21 21:05:46 +0200'
+date_gmt: '2008-10-21 19:05:46 +0200'
+---
+<p>In this tutorial we see how we can acces to OpenCV functions and use the images we process with it to use in our OpenGL program.</p>
+<p>To use an OpenCV image (IplImage) and use it as an OpenGL textures we mus use this function.</p>
+<pre lang="c">int loadTexture_Ipl(IplImage *image, GLuint *text) {
+
+if (image==NULL) return -1;
+
+glGenTextures(1, text);
+
+glBindTexture( GL_TEXTURE_2D, *text ); //bind the texture to it's array
+glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+
+glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image-&gt;width, image-&gt;height,0, GL_BGR, GL_UNSIGNED_BYTE, image-&gt;imageData);
+return 0;
+
+}</pre>
+<p>This function only get data image and store it as an image Texture.</p>
+<p>We can get a camera image and use it  to texture aplane, to do it we need a function to update the texture data, this we can do in OpenGL main loop or in glutiddleFunc as show</p>
+<pre lang="c">//En la funcion donde se actualizen los datos
+frame = cvQueryFrame( capture );
+if( frame ){
+loadTexture_Ipl(frame, &amp;texture);
+}</pre>
+<p><a title="Download source" href="https://github.com/damiles/OpenCV_OpenGL_Tutorial" target="_blank">Download source<br />
+</a></p>

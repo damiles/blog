@@ -1,0 +1,73 @@
+---
+layout: post
+status: publish
+published: true
+title: Basic Painter in OpenCV
+author:
+  display_name: damiles
+  login: admin
+  email: david.millan@damiles.com
+  url: ''
+author_login: admin
+author_email: david.millan@damiles.com
+wordpress_id: 72
+wordpress_url: http://blog.damiles.com/?p=72
+date: '2008-11-07 22:31:43 +0100'
+date_gmt: '2008-11-07 20:31:43 +0100'
+---
+<p>In this basic tutorial we go to learn some basic instructions to work in OpenCV, mouse event, trackbar controler, create image, save image and draw basic circle.</p>
+<p style="text-align: center;"><a href="http://blog.localhost/wp-content/uploads/2008/11/basicpainter.jpg"><img class="aligncenter size-full wp-image-79" title="basicpainter" src="http://blog.localhost/wp-content/uploads/2008/11/basicpainter.jpg" alt="" width="400" height="214" /></a></p>
+<p>First step is create two windows, one is our canvas image, and other to color selector as we see in last tutorials.<!--more--></p>
+<blockquote><p>//Create window<br />
+cvNamedWindow( "Demo", 0 );<br />
+cvNamedWindow( "ColorSelector",0);</p></blockquote>
+<p>Second step is creat the trackbars to control the color, then we need 3 trackbars, one by color.</p>
+<blockquote><p>//Create track Bar<br />
+cvCreateTrackbar("Red","ColorSelector", &amp;red,255,&amp;changeColor);<br />
+cvCreateTrackbar("Green","ColorSelector", &amp;green,255,&amp;changeColor);<br />
+cvCreateTrackbar("Blue","ColorSelector", &amp;blue,255,&amp;changeColor);</p></blockquote>
+<p>The trackbar function has these parameter and definition:</p>
+<blockquote><p>int <strong>cvCreateTrackbar</strong>( const char* trackbar_name, const char* window_name,<br />
+int* value, int count, CvTrackbarCallback on_change );</p>
+<p><strong>trackbar_name</strong> Name of created trackbar.<br />
+<strong>window_name </strong>Name of the window which will e used as a parent for created trackbar.<br />
+<strong>value </strong>Pointer to the integer variable, which value will reflect the position of the slider. Upon the creation the slider position is defined by this variable.<br />
+<strong>count </strong>Maximal position of the slider. Minimal position is always 0.<br />
+<strong>on_change</strong> Pointer to the function to be called every time the slider changes the position. This function should be prototyped as void Foo(int);Can be NULL if callback is not required.</p></blockquote>
+<p>In our tutorial we have a changeColor function asociated to set a color preview:</p>
+<blockquote><p>void changeColor(int pos){<br />
+cvSet(imgColor, CV_RGB(red,green,blue),NULL);<br />
+}</p></blockquote>
+<p>The cvSet function set all matrix values to a scalar value. The cvSet function and params are:</p>
+<blockquote><p>void <strong>cvSet</strong>( CvArr* arr, CvScalar value, const CvArr* mask=NULL );</p>
+<p><strong>arr</strong> The destination array.<br />
+<strong> value</strong> Fill value.<br />
+<strong>mask</strong> Operation mask, 8-bit single channel array; specifies elements of destination array to be changed.</p>
+<p>The function cvSet copies scalar value to every selected element of the destination array:</p>
+<p>arr(I)=value if mask(I)!=0</p>
+<p>If array arr is of IplImage type, then is ROI used, but COI must not be set.</p></blockquote>
+<p>To get mouse events we use cvSetMouseCallback where first parameter is window name we want give events, and the second parameter the pointer to callback function, we can pass third parameter as callback optional parameters.</p>
+<blockquote><p>cvSetMouseCallback("Demo",&amp;on_mouse, 0 );</p></blockquote>
+<p>The mouse event callback function must defined a:</p>
+<blockquote><p>void on_mouse( int event, int x, int y, int flags, void* param )</p></blockquote>
+<p>Where</p>
+<blockquote><p>event is a constant that give this values and define the mouse event:<br />
+#define CV_EVENT_MOUSEMOVE      0<br />
+#define CV_EVENT_LBUTTONDOWN    1<br />
+#define CV_EVENT_RBUTTONDOWN    2<br />
+#define CV_EVENT_MBUTTONDOWN    3<br />
+#define CV_EVENT_LBUTTONUP      4<br />
+#define CV_EVENT_RBUTTONUP      5<br />
+#define CV_EVENT_MBUTTONUP      6<br />
+#define CV_EVENT_LBUTTONDBLCLK  7<br />
+#define CV_EVENT_RBUTTONDBLCLK  8<br />
+#define CV_EVENT_MBUTTONDBLCLK  9</p>
+<p>x, y: integer mouse position in our image</p>
+<p>flag is another constant value:<br />
+#define CV_EVENT_FLAG_LBUTTON   1<br />
+#define CV_EVENT_FLAG_RBUTTON   2<br />
+#define CV_EVENT_FLAG_MBUTTON   4<br />
+#define CV_EVENT_FLAG_CTRLKEY   8<br />
+#define CV_EVENT_FLAG_SHIFTKEY  16<br />
+#define CV_EVENT_FLAG_ALTKEY    32</p></blockquote>
+<p><a title="Demo Source" href="http://www.artresnet.com/david/resource.jsp?f=8" target="_blank">Demo Source</a></p>

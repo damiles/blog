@@ -1,0 +1,59 @@
+---
+layout: post
+status: publish
+published: true
+title: The basics of background substraction
+author:
+  display_name: damiles
+  login: admin
+  email: david.millan@damiles.com
+  url: ''
+author_login: admin
+author_email: david.millan@damiles.com
+wordpress_id: 127
+wordpress_url: http://blog.damiles.com/?p=127
+date: '2009-03-25 16:20:02 +0100'
+date_gmt: '2009-03-25 14:20:02 +0100'
+---
+<p>This tutorial explain the basics of background substraction. First of all we need define what is a background and what is a foreground.</p>
+<p>We consider a background the pixels of image without motion. And a foreground the pixels with motion. Then the simplest background model assume each background pixel his brightness varies independently with normal distribution. Then we can calculate our statistical model of background by accumulating several dozens of frames and his squares, this is:</p>
+<p>$$ \displaystyle{S(x,y)=\sum_{f=1}^N p(x,y)}$$<br />
+$$ \displaystyle{Sq(x,y)=\sum_{f=1}^N p(x,y)^2}$$</p>
+<p><!--more-->Where:</p>
+<p>$$\displaystyle{f=frame; N= total frames}$$</p>
+<p>Then the average is:</p>
+<p>$$ \displaystyle{M(x,y)=\frac{S(x,y)}{N}}$$</p>
+<p>[caption id="attachment_160" align="aligncenter" width="300" caption="BG substraction mean pixel"]<a href="http://blog.localhost/wp-content/uploads//2009/03/mean.jpg"><img class="size-medium wp-image-160" title="mean" src="http://blog.localhost/wp-content/uploads//2009/03/mean-300x210.jpg" alt="BG substraction mean pixel" width="300" height="210" /></a>[/caption]</p>
+<p>And need the standar derivation for our statistical model:</p>
+<p>$$ \displaystyle{\sigma(x,y)=\sqrt{ \frac{Sq(x,y)}{N} - M(x,y)^2 }}$$</p>
+<p>Then, when we have our statistical background model, we can give a image and divide it in background and foreground, the pixels that are in foreground are the P(x,y) that met this condition:</p>
+<p>$$ \displaystyle{ | M(x,y) - P(x,y) | \ge \lambda \sigma(x,y) }$$</p>
+<p>For optimize a litle the operations we can use this for evaluate the condition:</p>
+<p>$latex \displaystyle{ {| M(x,y) - P(x,y) |}^2 \ge {(\lambda \sigma(x,y))}^2 }$</p>
+<p>$latex \displaystyle{ {| M(x,y) - P(x,y) |}^2 \ge \lambda^2 \sigma(x,y)^2 }$</p>
+<p>Where $latex \displaystyle{ sigma(x,y)^2 }$ is</p>
+<p>$latex \displaystyle{\sigma(x,y)^2 = \frac{Sq(x,y)}{N} - M(x,y)^2 }$</p>
+<p>And $latex \displaystyle{ \lambda }$ is a constant or variable and we can set it to 3, it is the well-known "three sigmas" rule.</p>
+<p>[caption id="attachment_161" align="aligncenter" width="300" caption="BG substraction Standar derivation compare"]<a href="http://blog.localhost/wp-content/uploads//2009/03/sig.jpg"><img class="size-medium wp-image-161" title="sig" src="http://blog.localhost/wp-content/uploads//2009/03/sig-300x210.jpg" alt="BG substraction Standar derivation compare" width="300" height="210" /></a>[/caption]</p>
+<p>Ok, then we now have the theory, then, we go to implement it.</p>
+<p>To develop it opencv give us some functions, cvAcc and cvSquareAcc</p>
+<pre lang="c">cvAcc(frame,acc,NULL);
+cvSquareAcc(frame, sqacc, NULL);
+N++;
+cvConvertScale(acc, M, (double)(1.0/N), 0);
+cvConvertScale(sqacc, sqaccM, (double)(1.0/N),0);
+cvMul( M, M, M2, 1 );
+cvSub( sqaccM, M2, sig2, NULL);//The sig is sig2
+
+//For detect FG Condition
+cvConvertScale(sig2, lambda_sig2, (double)9, 0);
+cvSub(M, frame, leftCondition, NULL);
+cvMul(leftCond, leftCond, leftCond2, NULL);
+
+//Compare leftCondition &gt; lambda_sig2
+//to detect foreground.</pre>
+<p>Results:</p>
+<p><a href="http://blog.localhost/wp-content/uploads//2009/03/captura1.jpg"><img class="aligncenter size-medium wp-image-159" title="BG substraction capture" src="http://blog.localhost/wp-content/uploads//2009/03/captura1-300x121.jpg" alt="" width="300" height="121" /></a></p>
+<p>Note:<br />
+This code is an example and it's no completed.<br />
+In next tutorial a more advanced background substranction.</p>

@@ -1,0 +1,29 @@
+---
+layout: post
+status: publish
+published: true
+title: AWK. Calculate mean, min and max
+author:
+  display_name: damiles
+  login: admin
+  email: david.millan@damiles.com
+  url: ''
+author_login: admin
+author_email: david.millan@damiles.com
+wordpress_id: 33
+wordpress_url: http://blog.damiles.com/?p=33
+date: '2008-10-23 21:01:49 +0200'
+date_gmt: '2008-10-23 19:01:49 +0200'
+---
+<p><strong>AWK</strong> is a general purpose programing language that is designed for processing text-based data. This unix command is very powerful and with it we can calculate the mean, min and max of a data stored in file.</p>
+<p>data.txt:</p>
+<blockquote><p>10<br />
+20<br />
+50<br />
+100<br />
+200<br />
+500</p></blockquote>
+<p>awk command:</p>
+<blockquote><p>awk '{if(min==""){min=max=$1}; if($1&gt;max) {max=$1}; if($1&lt; min) {min=$1}; total+=$1; count+=1} END {print total/count, min, max}' data.txt</p></blockquote>
+<p>Result:</p>
+<blockquote><p>146.667 10 500</p></blockquote>

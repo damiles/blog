@@ -1,0 +1,23 @@
+---
+layout: post
+status: publish
+published: true
+title: HSQLDB and java entity class most common error
+author:
+  display_name: damiles
+  login: admin
+  email: david.millan@damiles.com
+  url: ''
+author_login: admin
+author_email: david.millan@damiles.com
+wordpress_id: 82
+wordpress_url: http://blog.damiles.com/?p=82
+date: '2008-11-11 11:42:13 +0100'
+date_gmt: '2008-11-11 09:42:13 +0100'
+---
+<p>Last day, i'm developing an application with hsqldb and java swing with jpa entites classes, and whe i set a primary key or class attribute as int, integer, long or similar number type, when it parsed to sql statment with toplink it's created as Number instead as integer.</p>
+<p>Before i looking many hours in Google i find the solution thanks to this <a title="TopLink JPA and HSQLDB Quirk" href="http://dayg.wordpress.com/2008/05/14/toplink-jpa-and-hsqldb-quirk/" target="_blank">web </a></p>
+<p>The solution is include  in persistence.xml this line:<span></span></p>
+<blockquote><p><span><span class="tag">&lt;</span><span class="tag-name">property</span><span> </span><span class="attribute">name</span><span>=</span><span class="attribute-value">"toplink.target-database"</span><span> </span><span class="attribute">value</span><span>=</span><span class="attribute-value">"HSQL"</span><span class="tag">/&gt;</span><span> </span></span></p></blockquote>
+<p>We need specify to Toplink JPA the target database to HSQL.</p>
+<p>But we can specify more types or database as Attunity, Cloudspace, Database, MySQL4, Oracle... You can find the documentation and databases suport in <a title="Toplink Essential JPA Extension Reference" href="http://www.oracle.com/technology/products/ias/toplink/JPA/essentials/toplink-jpa-extensions.html#TopLinkDBSessionAppServer" target="_blank">Toplink Essential JPA Extension Reference</a></p>

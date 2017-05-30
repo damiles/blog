@@ -1,0 +1,223 @@
+---
+layout: post
+status: publish
+published: true
+title: Basic OCR in OpenCV
+author:
+  display_name: damiles
+  login: admin
+  email: david.millan@damiles.com
+  url: ''
+author_login: admin
+author_email: david.millan@damiles.com
+wordpress_id: 93
+wordpress_url: http://blog.damiles.com/?p=93
+date: '2008-11-20 21:59:29 +0100'
+date_gmt: '2008-11-20 19:59:29 +0100'
+---
+<p><a class="download" title="Demo Source Basic OCR" href="https://github.com/damiles/basicOCR" target="_blank">Demo Source from GitHub</a></p>
+<p>In this tutorial we go to create a basic number OCR. It consist to classify a handwrite number into his class.</p>
+<p>To do it, we go to use all we learn in before tutorials, we go to use a simple <a title="Basic Painter" href="http://blog.localhost/?p=72" target="_blank">basic painter</a> and <a title="pattern recognition" href="http://blog.localhost/?p=84" target="_blank">the basic pattern recognition and classification with openCV</a> tutorial.</p>
+<p>In a typical pattern recognition classifier consist in three modules:</p>
+<p style="text-align: center;"><a href="http://blog.localhost/wp-content/uploads/2008/11/pr.gif"><img class="aligncenter size-full wp-image-94" title="Pattern recognition modules" src="http://blog.localhost/wp-content/uploads/2008/11/pr.gif" alt="" width="400" height="600" /></a></p>
+<p><!--more-->Preprocessing: in this module we go to process our input image, for example size normalize, convert color to BN...</p>
+<p>Feature extraction: in this module we convert our image processed to a characteristic vector of features to classify, it can be the pixels matrix convert to vector or get contour chain codes data representation</p>
+<p>Classification module get the feature vectors and train our system or classify an input feature vector with a classify method as knn.</p>
+<p>In this basic OCR we go to use this graph:</p>
+<p style="text-align: center;"><a href="http://blog.localhost/wp-content/uploads/2008/11/knnc-graph.jpg"><img class="aligncenter size-full wp-image-95" title="knnc-graph" src="http://blog.localhost/wp-content/uploads/2008/11/knnc-graph.jpg" alt="" width="400" height="500" /></a></p>
+<p>Where we get a train set and test set of image to train and test our classifier method (knn)</p>
+<p>We have a 1000 handwrite images, 100 images of each number. We get 50 images of each number (class) to train and other 50 to test our system.</p>
+<p style="text-align: center;"><a href="http://blog.localhost/wp-content/uploads/2008/11/numbers.gif"><img class="aligncenter size-full wp-image-97" title="numbers" src="http://blog.localhost/wp-content/uploads/2008/11/numbers.gif" alt="" width="400" height="400" /></a></p>
+<p>Then the first work we do is pre-process all train image, to do it we create a preprocessing function. In this function we get a image and a new width and height we want as result of preprocessing, then the function return a normalized size with bounding box image. You can see more clear the process in this graph:</p>
+<p style="text-align: center;"><a href="http://blog.localhost/wp-content/uploads/2008/11/preprocesing.gif"><img class="aligncenter size-full wp-image-100" title="preprocesing" src="http://blog.localhost/wp-content/uploads/2008/11/preprocesing.gif" alt="" width="400" height="600" /></a></p>
+<p>Pre-processing code:</p>
+
+{% highlight c++ %}
+void findX(IplImage * imgSrc, int * min, int * max) {
+  int i;
+  int minFound = 0;
+  CvMat data;
+  CvScalar maxVal = cvRealScalar(imgSrc - > width * 255);
+  CvScalar val = cvRealScalar(0);
+  //For each col sum, if sum < width*255 then we find the min
+  //then continue to end to search the max, if sum< width*255 then is new max
+  for (i = 0; i < imgSrc - > width; i++) {
+    cvGetCol(imgSrc, & data, i);
+    val = cvSum( & data);
+    if (val.val[0] < maxVal.val[0]) { * max = i;
+      if (!minFound) { * min = i;
+        minFound = 1;
+      }
+    }
+  }
+}
+
+void findY(IplImage * imgSrc, int * min, int * max) {
+  int i;
+  int minFound = 0;
+  CvMat data;
+  CvScalar maxVal = cvRealScalar(imgSrc - > width * 255);
+  CvScalar val = cvRealScalar(0);
+  //For each col sum, if sum < width*255 then we find the min
+  //then continue to end to search the max, if sum< width*255 then is new max
+  for (i = 0; i < imgSrc - > height; i++) {
+    cvGetRow(imgSrc, & data, i);
+    val = cvSum( & data);
+    if (val.val[0] < maxVal.val[0]) { * max = i;
+      if (!minFound) { * min = i;
+        minFound = 1;
+      }
+    }
+  }
+}
+CvRect findBB(IplImage * imgSrc) {
+  CvRect aux;
+  int xmin, xmax, ymin, ymax;
+  xmin = xmax = ymin = ymax = 0;
+
+  findX(imgSrc, & xmin, & xmax);
+  findY(imgSrc, & ymin, & ymax);
+
+  aux = cvRect(xmin, ymin, xmax - xmin, ymax - ymin);
+
+  //printf("BB: %d,%d - %d,%d\n", aux.x, aux.y, aux.width, aux.height);
+
+  return aux;
+
+}
+
+IplImage preprocessing(IplImage * imgSrc, int new_width, int new_height) {
+  IplImage * result;
+  IplImage * scaledResult;
+
+  CvMat data;
+  CvMat dataA;
+  CvRect bb; //bounding box
+  CvRect bba; //boundinb box maintain aspect ratio
+
+  //Find bounding box
+  bb = findBB(imgSrc);
+
+  //Get bounding box data and no with aspect ratio, the x and y can be corrupted
+  cvGetSubRect(imgSrc, & data, cvRect(bb.x, bb.y, bb.width, bb.height));
+  //Create image with this data with width and height with aspect ratio 1
+  //then we get highest size betwen width and height of our bounding box
+  int size = (bb.width > bb.height) ? bb.width : bb.height;
+  result = cvCreateImage(cvSize(size, size), 8, 1);
+  cvSet(result, CV_RGB(255, 255, 255), NULL);
+  //Copy de data in center of image
+  int x = (int) floor((float)(size - bb.width) / 2.0 f);
+  int y = (int) floor((float)(size - bb.height) / 2.0 f);
+  cvGetSubRect(result, & dataA, cvRect(x, y, bb.width, bb.height));
+  cvCopy( & data, & dataA, NULL);
+  //Scale result
+  scaledResult = cvCreateImage(cvSize(new_width, new_height), 8, 1);
+  cvResize(result, scaledResult, CV_INTER_NN);
+
+  //Return processed data
+  return *scaledResult;
+
+}
+{% endhighlight %}
+<p>We use the function getData of basicOCR class to create the train data and train classes, this function get all images under OCR folder to create this train data, the OCR forlder is structured with 1 folder to each class and each file have are pbm files with this name cnn.pbm where c is the class {0..9} and nn is the number of image {00..99}</p>
+<p>Each image we get is pre-processed and then convert the data in a feature vector we use.</p>
+<p>basicOCR.cpp getData code:</p>
+<p>[c language="++"]<br />
+void basicOCR::getData()<br />
+{<br />
+IplImage* src_image;<br />
+IplImage prs_image;<br />
+CvMat row,data;<br />
+char file[255];<br />
+int i,j;<br />
+for(i =0; i&lt;classes; i++){<br />
+for( j = 0; j&lt; train_samples; j++){</p>
+<p>//Load file<br />
+if(j&lt;10)<br />
+sprintf(file,&quot;%s%d/%d0%d.pbm&quot;,file_path, i, i , j);<br />
+else<br />
+sprintf(file,&quot;%s%d/%d%d.pbm&quot;,file_path, i, i , j);<br />
+src_image = cvLoadImage(file,0);<br />
+if(!src_image){<br />
+printf(&quot;Error: Cant load image %s\n&quot;, file);<br />
+//exit(-1);<br />
+}<br />
+//process file<br />
+prs_image = preprocessing(src_image, size, size);</p>
+<p>//Set class label<br />
+cvGetRow(trainClasses, &amp;row, i*train_samples + j);<br />
+cvSet(&amp;row, cvRealScalar(i));<br />
+//Set data<br />
+cvGetRow(trainData, &amp;row, i*train_samples + j);</p>
+<p>IplImage* img = cvCreateImage( cvSize( size, size ), IPL_DEPTH_32F, 1 );<br />
+//convert 8 bits image to 32 float image<br />
+cvConvertScale(&amp;prs_image, img, 0.0039215, 0);</p>
+<p>cvGetSubRect(img, &amp;data, cvRect(0,0, size,size));</p>
+<p>CvMat row_header, *row1;<br />
+//convert data matrix sizexsize to vecor<br />
+row1 = cvReshape( &amp;data, &amp;row_header, 0, 1 );<br />
+cvCopy(row1, &amp;row, NULL);<br />
+}<br />
+}<br />
+}[/c]</p>
+<p>After processed and get train data and classes whe then train our model with this data, in our sample we use knn method then:</p>
+<p>[c language="++"]knn=new CvKNearest( trainData, trainClasses, 0, false, K );[/c]</p>
+<p>Then we now can test our model, and we can use the test result to compare to another methods we can use, or if we reduce the image scale or similar. There are a function to create the test in our basicOCR class, test function.</p>
+<p>This function get the other 500 samples and classify this in our selected method and check the obtained result.</p>
+<p>[c language="++"]void basicOCR::test(){<br />
+IplImage* src_image;<br />
+IplImage prs_image;<br />
+CvMat row,data;<br />
+char file[255];<br />
+int i,j;<br />
+int error=0;<br />
+int testCount=0;<br />
+for(i =0; i&lt;classes; i++){<br />
+for( j = 50; j&lt; 50+train_samples; j++){</p>
+<p>sprintf(file,&quot;%s%d/%d%d.pbm&quot;,file_path, i, i , j);<br />
+src_image = cvLoadImage(file,0);<br />
+if(!src_image){<br />
+printf(&quot;Error: Cant load image %s\n&quot;, file);<br />
+//exit(-1);<br />
+}<br />
+//process file<br />
+prs_image = preprocessing(src_image, size, size);<br />
+float r=classify(&amp;prs_image,0);<br />
+if((int)r!=i)<br />
+error++;</p>
+<p>testCount++;<br />
+}<br />
+}<br />
+float totalerror=100*(float)error/(float)testCount;<br />
+printf(&quot;System Error: %.2f%%\n&quot;, totalerror);</p>
+<p>}[/c]</p>
+<p>Test use the classify function that get image to classify, process image, get feature vector and classify it with a find_nearest of knn class. This function we use to classify the input user images:</p>
+<p>[c language="++"]float basicOCR::classify(IplImage* img, int showResult)<br />
+{<br />
+IplImage prs_image;<br />
+CvMat data;<br />
+CvMat* nearest=cvCreateMat(1,K,CV_32FC1);<br />
+float result;<br />
+//process file<br />
+prs_image = preprocessing(img, size, size);</p>
+<p>//Set data<br />
+IplImage* img32 = cvCreateImage( cvSize( size, size ), IPL_DEPTH_32F, 1 );<br />
+cvConvertScale(&amp;prs_image, img32, 0.0039215, 0);<br />
+cvGetSubRect(img32, &amp;data, cvRect(0,0, size,size));<br />
+CvMat row_header, *row1;<br />
+row1 = cvReshape( &amp;data, &amp;row_header, 0, 1 );</p>
+<p>result=knn-&gt;find_nearest(row1,K,0,0,nearest,0);</p>
+<p>int accuracy=0;<br />
+for(int i=0;i&lt;K;i++){<br />
+if( nearest-&gt;data.fl[i] == result)<br />
+accuracy++;<br />
+}<br />
+float pre=100*((float)accuracy/(float)K);<br />
+if(showResult==1){<br />
+printf(&quot;|\t%.0f\t| \t%.2f%%  \t| \t%d of %d \t| \n&quot;,result,pre,accuracy,K);<br />
+printf(&quot; ---------------------------------------------------------------\n&quot;);<br />
+}</p>
+<p>return result;</p>
+<p>}[/c]</p>
+<p>All work or training and test is in basicOCR class, when we create a basicOCR instance then only we need call to classify function to classify our input image. Then we go to use basic Painter we create before in other tutorial to user interactivity to draw a image and classify it.</p>
+<p><a class="download" title="Demo Source Basic OCR" href="https://github.com/damiles/basicOCR" target="_blank">Demo Source</a></p>

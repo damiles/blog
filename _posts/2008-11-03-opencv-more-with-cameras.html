@@ -1,0 +1,87 @@
+---
+layout: post
+status: publish
+published: true
+title: OpenCV More with cameras.
+author:
+  display_name: damiles
+  login: admin
+  email: david.millan@damiles.com
+  url: ''
+author_login: admin
+author_email: david.millan@damiles.com
+wordpress_id: 67
+wordpress_url: http://blog.damiles.com/?p=67
+date: '2008-11-03 22:41:21 +0100'
+date_gmt: '2008-11-03 20:41:21 +0100'
+---
+<p style="text-align: center;"><a href="http://blog.localhost/wp-content/uploads/2008/11/cam_diff_thres.jpg"><img class="aligncenter size-full wp-image-68" title="cam_diff_thres" src="http://blog.localhost/wp-content/uploads/2008/11/cam_diff_thres.jpg" alt="" width="347" height="166" /></a></p>
+<p>In last tutorial we learn how to get frames of our camera, now we go to learn some basic OpenCV functions to work with our captured frames or video. There is nothing special, but it's the first steps to introduce to work with OpenCV</p>
+<p><!--more-->Imagine we want create a basic OpenCV program that get a video o camera capture and process the images to get a binary image difference between actual frame and last frame.</p>
+<p>Then we have a actual image, lastImage, diffImage where we store the difference images, and the bitImage result that are IplImage instance.</p>
+<blockquote><p>IplImage* image;<br />
+IplImage* lastImage;<br />
+IplImage* diffImage;<br />
+IplImage* bitImage;</p></blockquote>
+<p>Whe need create these variables and initialize with cvCreateImage, this function create and allocate in memory the structure and headers of our image, this function need as attribute image size, depth and number of channels. We get frame as reference to initialize the variables.</p>
+<blockquote><p>image=cvCreateImage(cvSize(frame-&gt;width,frame-&gt;height),frame-&gt;depth,1);</p></blockquote>
+<p>The frame whe get sure is a RGB image, but we go to working with gray level images the we need conver captured frame to Gray Level. The cvCvtColor conver color spaces of image to another and is defined:</p>
+<blockquote><p>void cvCvtColor( const CvArr* src, CvArr* dst, int code );</p></blockquote>
+<dl>
+<dt><strong>src</strong> is the source 8-bit (8u), 16-bit (16u) or single-precision floating-point (32f) image. <strong>dst</strong> is the destination image of the same data type as the source one. The number of channels may be different. And <strong>code</strong> is color conversion operation that can be specified using CV_&lt;src_color_space&gt;2&lt;dst_color_space&gt; constants</dt>
+</dl>
+<blockquote><p>cvCvtColor(frame, image, CV_BGR2GRAY);</p></blockquote>
+<p>We can get a new copy in memory of image withcvCloneImage</p>
+<blockquote><p>lastImage=cvCloneImage(image);</p></blockquote>
+<p>To get the image differences we use cvAbsDiff function, to get absolute diference between images:</p>
+<blockquote><p>cvAbsDiff(image,lastImage,diffImage);</p></blockquote>
+<p>The function definition</p>
+<blockquote><p>void cvAbsDiff( const CvArr* src1, const CvArr* src2, CvArr* dst );</p></blockquote>
+<dl>
+<dt>Where src1 is the first source array. <strong>src2</strong> is the second source array, and <strong>dst</strong> is the destination array.</dt>
+</dl>
+<p>Then to finish we only need get a threshold of image, and we do it with cvThreshold function</p>
+<blockquote><p>cvThreshold(diffImage,bitImage,tr,255,CV_THRESH_BINARY);</p></blockquote>
+<p>And this function have this definition:</p>
+<blockquote><p>double cvThreshold( const CvArr* src, CvArr* dst, double threshold,<br />
+double max_value, int threshold_type );</p></blockquote>
+<dl>
+<dt>Where <strong>src</strong> is source array (single-channel, 8-bit of 32-bit floating point), <strong>dst</strong> is destination array; must be either the same type as <code>src</code> or 8-bit, <strong>threshold</strong> is the threshold value, <strong>max_value</strong> is the maximum value to use with <code>CV_THRESH_BINARY</code> and <code>CV_THRESH_BINARY_INV</code> thresholding types, and <strong>threshold_type</strong> is thresholding type</dt>
+</dl>
+<p>This is the main loop program:</p>
+<blockquote><p>for(;;){<br />
+IplImage* frame = 0;<br />
+int c;</p>
+<p>frame = cvQueryFrame( capture );<br />
+if( !frame )<br />
+break;<br />
+//If is the first frame<br />
+if(!image){<br />
+//Create image header same as frame but with 1 channel to gray<br />
+image=cvCreateImage(cvSize(frame-&gt;width,frame-&gt;height),frame-&gt;depth,1);<br />
+bitImage=cvCreateImage(cvSize(frame-&gt;width,frame-&gt;height),frame-&gt;depth,1);<br />
+}<br />
+//Convert frame to gray and store in image<br />
+cvCvtColor(frame, image,CV_BGR2GRAY);</p>
+<p>//If is the first frame<br />
+if(!lastImage){</p>
+<p>//If no lastImage clone actual image;<br />
+lastImage=cvCloneImage(image);<br />
+}<br />
+if(!diffImage){<br />
+//Create image header same as frame but with 1 channel to gray<br />
+diffImage=cvCreateImage(cvSize(frame-&gt;width,frame-&gt;height),frame-&gt;depth,1);<br />
+}</p>
+<p>cvShowImage( "CamSub", frame );<br />
+//Differences with actual and last image<br />
+cvAbsDiff(image,lastImage,diffImage);<br />
+//threshold image<br />
+cvThreshold(diffImage,bitImage,tr,255,CV_THRESH_BINARY);<br />
+//Change datas;<br />
+lastImage=cvCloneImage(image);</p>
+<p>cvShowImage("CamSub 1",bitImage);</p>
+<p>c = cvWaitKey(10);<br />
+if( (char) c == 27 )<br />
+break;<br />
+}</p></blockquote>
+<p><a title="Demo Source Camera II" href="http://www.artresnet.com/david/resource.jsp?f=7" target="_blank">Demo Source</a></p>

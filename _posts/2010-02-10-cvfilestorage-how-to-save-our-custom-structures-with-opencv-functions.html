@@ -1,0 +1,57 @@
+---
+layout: post
+status: publish
+published: true
+title: CvFileStorage. How to save our custom structures with OpenCV functions
+author:
+  display_name: damiles
+  login: admin
+  email: david.millan@damiles.com
+  url: ''
+author_login: admin
+author_email: david.millan@damiles.com
+wordpress_id: 262
+wordpress_url: http://blog.damiles.com/?p=262
+date: '2010-02-10 16:29:54 +0100'
+date_gmt: '2010-02-10 14:29:54 +0100'
+---
+<p>[caption id="attachment_311" align="aligncenter" width="645" caption="OpenCV"]<a href="http://blog.localhost/wp-content/uploads//2010/02/opencvGeneric.png"><img class="size-full wp-image-311" title="opencvGeneric" src="http://blog.localhost/wp-content/uploads//2010/02/opencvGeneric.png" alt="OpenCV" width="645" height="240" /></a>[/caption]</p>
+<p>In this tutorial we go to show how to save our custom structures with opencv functions.</p>
+<p>We go to imagine we have this structure in our program.<!--more--></p>
+<p>[c language="++"]typedef struct<br />
+{<br />
+	float var1;<br />
+	unsigned char var2[255];<br />
+}MyStructure;[/c]</p>
+<p>Opencv can save data in two formats: XML or YAML. This formats are markup languages.</p>
+<p>For write or read a file, we go to use cvOpenFileStorage function, the functions returns  a CvFileStorage structure pointer. This pointer we use to read or write values into.</p>
+<p>We can open a file in two ways: for read or write. The function to open file is <a title="cvOpenFileStorage - OpenCV Wiki" href="http://opencv.willowgarage.com/documentation/xml/yaml_persistence.html?highlight=cvopenfilestorage#cvOpenFileStorage" target="_blank">cvOpenFileStorage</a></p>
+<p>[c language="++"]CvFileStorage* storage = cvOpenFileStorage( file, 0, CV_STORAGE_WRITE_TEXT );[/c]</p>
+<p>One time we have our CvFileStorage initialized then we can save our data. To save the data we need create Nodes. XML and YAML are markup languages, and they are defined with nodes.</p>
+<p>First we go to create one node that contains all structure data. And inside of this node we need create one node for each variable.</p>
+<p>For create a node we need open and close this node, as we do with xml, then we use <a href="http://opencv.willowgarage.com/documentation/xml/yaml_persistence.html#startwritestruct" target="_blank">cvStartWriteStruct</a> and <a href="http://opencv.willowgarage.com/documentation/xml/yaml_persistence.html#endwritestruct" target="_blank">cvEndWriteStruct</a>.</p>
+<p>[c language="++"]cvStartWriteStruct(storage, &quot;MyStructure&quot;, CV_NODE_MAP, NULL, cvAttrList(0,0));<br />
+...<br />
+cvEndWriteStruct(storage);[/c]</p>
+<p>Between the start and end node we go to insert each new node with asigned variable. The variable we must save as some of this types: int, raw (array), real or string with this functions:</p>
+<ul>
+<li><a href="http://opencv.willowgarage.com/documentation/xml/yaml_persistence.html#writeint" target="_blank"><tt>cvWriteInt</tt></a></li>
+<li><a href="http://opencv.willowgarage.com/documentation/xml/yaml_persistence.html#writerawdata" target="_blank"><tt>cvWriteRawData</tt></a></li>
+<li><a href="http://opencv.willowgarage.com/documentation/xml/yaml_persistence.html#writereal" target="_blank"><tt>cvWriteReal</tt></a></li>
+<li><a href="http://opencv.willowgarage.com/documentation/xml/yaml_persistence.html#writestring" target="_blank"><tt>cvWriteString</tt></a></li>
+</ul>
+<p>Then for save our structure we go to create this code:</p>
+<p>[c language="++"]<br />
+//Open file<br />
+CvFileStorage* storage = cvOpenFileStorage( file, 0, CV_STORAGE_WRITE_TEXT );<br />
+//Create our node for structure<br />
+cvStartWriteStruct(storage, &quot;MyStructure&quot;, CV_NODE_MAP, NULL, cvAttrList(0,0));<br />
+//Write our float<br />
+cvWriteReal( storage, &quot;var1&quot;, MyStructure-&gt;var1 );</p>
+<p>//Write our array<br />
+cvStartWriteStruct(storage, &quot;var2&quot;, CV_NODE_SEQ, NULL, cvAttrList(0,0));<br />
+cvWriteRawData(storage, MyStructure-&gt;var2,255,&quot;u&quot;);<br />
+cvEndWriteStruct(storage);</p>
+<p>//End node structure<br />
+cvEndWriteStruct(storage);</p>
+<p>[/c]</p>

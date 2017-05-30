@@ -1,0 +1,32 @@
+---
+layout: post
+status: publish
+published: true
+title: Pseudocolor implementation with OpenCV.
+author:
+  display_name: damiles
+  login: admin
+  email: david.millan@damiles.com
+  url: ''
+author_login: admin
+author_email: david.millan@damiles.com
+wordpress_id: 244
+wordpress_url: http://blog.damiles.com/?p=244
+date: '2010-01-28 23:19:56 +0100'
+date_gmt: '2010-01-28 21:19:56 +0100'
+---
+<p>In Computer Vision works in a lot of cases with gray images because there are a lot of motives. But human vision don't perceives the gray levels so well as color levels.</p>
+<p>Then if we need show a image to a person, we can color it. But, how is the best way to coloring gray image?</p>
+<p>There are 3 ways to do it: Manually, automatically and colored by ranges.</p>
+<p>In this tutorial, i go to develop the way most common automatic for gray image coloring.</p>
+<p>To do it we need know we go to receive a gray level and we need return 3 values, one for red, one for blue and other for green.</p>
+<p>We go to use this function:</p>
+<p>$latex \displaystyle{ s(x,y)=\vert sin(r(x,y)*p*PI + \Theta*PI)\vert}$</p>
+<p>And r(x,y) is the gray level and p is the number of repetitions and $latex \displaystyle{ \Theta }$ is the displacement.</p>
+<p>Then we only need define the p and $latex \displaystyle{ \Theta }$ for each channel.</p>
+<p>If we create a plot with this function with this parameters for red, green and blue ((2,0),(2,-0.1),(2,-0.3)) we get:</p>
+<p>[caption id="attachment_253" align="aligncenter" width="300" caption="Pseudocolor Graph with red(p=2,theta=0) green(2,-0.1) and blue(2,-0.3)"]<a href="http://blog.localhost/wp-content/uploads//2010/01/graph.gif"><img class="size-medium wp-image-253 " title="graph" src="http://blog.localhost/wp-content/uploads//2010/01/graph-300x218.gif" alt="Pseudocolor Graph" width="300" height="218" /></a>[/caption]</p>
+<p>Then we only need set the gray level in range 0 to 1 and the sine returns values from 0 to 1 we interpret as float image values or we set in range 0 to 255.</p>
+<p>To finish this is the result:</p>
+<p>[caption id="attachment_255" align="aligncenter" width="387" caption="Pseudocolor Result"]<a href="http://blog.localhost/wp-content/uploads//2010/01/pseudocolor.jpg"><img class="size-medium wp-image-255" title="pseudocolor" src="http://blog.localhost/wp-content/uploads//2010/01/pseudocolor-300x238.jpg" alt="Pseudocolor Result" width="387" height="308" /></a>[/caption]</p>
+<p><a title="Code" href="https://github.com/damiles/opencv-pseudocolor" target="_blank">Download the code.</a></p>

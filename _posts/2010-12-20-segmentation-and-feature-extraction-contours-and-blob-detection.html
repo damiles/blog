@@ -1,0 +1,67 @@
+---
+layout: post
+status: publish
+published: true
+title: Segmentation and feature extraction. Contours and blob detection.
+author:
+  display_name: damiles
+  login: admin
+  email: david.millan@damiles.com
+  url: ''
+author_login: admin
+author_email: david.millan@damiles.com
+wordpress_id: 292
+wordpress_url: http://blog.damiles.com/?p=292
+date: '2010-12-20 17:14:45 +0100'
+date_gmt: '2010-12-20 15:14:45 +0100'
+---
+<p>In BasiOCR tutorial i explain  how to preprocess, extract features and clasify a handwritten number, and a lot of people ask me how to segment an image where contains several numbers or objects.</p>
+<p>In this tutorial I want explain how to segment an image and detect each object inside image, in this tutorial we can detect objects from plate (the numbers) or each object draw into a paper.</p>
+
+<p><a href="http://blog.localhost/wp-content/uploads//2010/12/result.jpg"><img class="aligncenter size-full wp-image-295" title="result" src="http://blog.localhost/wp-content/uploads//2010/12/result.jpg" alt="" width="434" height="127" /></a><!--more--></p>
+<p>We can define three steps to do this task: preprocess image, find countours, and calculate bounding rect. With this three steps we have each object separatly and then we can use each object to classify it with basicocr sample.</p>
+<p>For preprocessing task we use:</p>
+<ol>
+<li>Smooth filter to simple noise elimination.</li>
+<li>Threshold image to get binary image</li>
+<li>Morphologic filter, erode and dilate to eliminate noise.</li>
+</ol>
+<p><a href="http://blog.localhost//wp-content/uploads/2010/12/preprocess_seg.png"><img title="preprocess segmentation" src="http://blog.localhost//wp-content/uploads/2010/12/preprocess_seg.png" alt="" width="421" height="480" /></a></p>
+<p>Once we have preprocessed our input image we look for the contours in our binary image with cvFindContours, and optimize its with approxpoly.</p>
+<p>[c]</p>
+<p>//Search countours in preprocesed image<br />
+ cvFindContours( img_contornos, storage, &amp;contour, sizeof(CvContour),<br />
+ CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, cvPoint(0, 0) );<br />
+ //Optimize contours, reduce points<br />
+ contourLow=cvApproxPoly(contour, sizeof(CvContour), storage,CV_POLY_APPROX_DP,1,1);</p>
+<p>[/c]</p>
+<p>Then for each searched contour we calculate the bounding rect.</p>
+<p>[c]</p>
+<p>//For each contour found<br />
+ for( ; contourLow != 0; contourLow = contourLow-&gt;h_next )<br />
+ {</p>
+<p>...</p>
+<p>CvRect rect;</p>
+<p>rect=cvBoundingRect(contourLow, NULL);</p>
+<p>[/c]</p>
+<p>We can now draw his contour and/or bounding rect.</p>
+<p>[c]</p>
+<p>pt1.x = rect.x;<br />
+ pt2.x = (rect.x+rect.width);<br />
+ pt1.y = rect.y;<br />
+ pt2.y = (rect.y+rect.height);<br />
+ cvRectangle(imagen_color, pt1,pt2, color, 1, 8, 0);<br />
+//or<br />
+cvDrawContours( imagen_color, contourLow, color, color, -1, 0, 8, cvPoint(0,0) );</p>
+<p>[/c]</p>
+<p style="text-align: center;"><a href="http://blog.localhost/wp-content/uploads//2010/12/result1.png"><img class="aligncenter size-full wp-image-301" title="segmentation result" src="http://blog.localhost/wp-content/uploads//2010/12/result1.png" alt="" width="446" height="89" /></a></p>
+<p>Now we have each object differenciate, now we can use this to get characteristics to classificate, for example  the 7 invariant hu moments.</p>
+<p>[c]</p>
+<p>CvMoments moments;<br />
+CvHuMoments humoments;</p>
+<p>//First calculate object moments<br />
+ cvMoments(contourLow, &amp;moments, 0);<br />
+ //Now calculate hu moments<br />
+ cvGetHuMoments(&amp;moments, &amp;humoments);</p>
+<p>[/c]</p>
+<p><a class="download" href="https://github.com/damiles/Segmentation-Tutorial" target="_blank">Download source from GitHub</a></p>

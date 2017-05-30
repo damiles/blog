@@ -1,0 +1,73 @@
+---
+layout: post
+status: publish
+published: true
+title: The basic patter recognition and classification with openCV
+author:
+  display_name: damiles
+  login: admin
+  email: david.millan@damiles.com
+  url: ''
+author_login: admin
+author_email: david.millan@damiles.com
+wordpress_id: 84
+wordpress_url: http://blog.damiles.com/?p=84
+date: '2008-11-14 13:06:57 +0100'
+date_gmt: '2008-11-14 11:06:57 +0100'
+---
+<p>In this tutorial we go to introduce to the pattern recognitions basics in openCV.</p>
+<p>In pattern recognitions before we can classificate an element we need train our system. We go to train with 3 class with 100 samples each one.</p>
+<p>Then we create 2 matrix trainData and traninClasses with 300 samples:</p>
+<blockquote><p>int train_sample_count = 300;<br />
+CvRNG rng_state = cvRNG(-1);<br />
+CvMat* trainData = cvCreateMat( train_sample_count, 2, CV_32FC1 );<br />
+CvMat* trainClasses = cvCreateMat( train_sample_count, 1, CV_32FC1 );</p></blockquote>
+<p><!--more-->Where our 100 first data are class 1, the range 100 to 200 are class 2 and last 100 data are class 3, then we set our trainClasses matrix data:</p>
+<blockquote><p>cvGetRows( trainClasses, &amp;trainClasses1, 0, 100 );<br />
+cvSet( &amp;trainClasses1, cvScalar(1) );</p>
+<p>cvGetRows( trainClasses, &amp;trainClasses2, 100, 200 );<br />
+cvSet( &amp;trainClasses2, cvScalar(2) );</p>
+<p>cvGetRows( trainClasses, &amp;trainClasses3, 200, 300 );<br />
+cvSet( &amp;trainClasses3, cvScalar(3) );</p></blockquote>
+<p>cvGetRows function set a CvMat structure (matrix structure) with selected rows of source matrix.</p>
+<blockquote><p>cvGetRows( srcMatrix, destMatrix, first_row, last_row );</p></blockquote>
+<p>And set all rows to dest class witn cvSet, this function set all values of matrix to a scalar</p>
+<blockquote><p>cvSet( matrix, cv_scalar_value );</p></blockquote>
+<p>We go to use in this tutorial a random <a title="Normal distribution" href="http://en.wikipedia.org/wiki/Normal_distribution" target="_blank">normalized</a> sample in 2D (2D gaussian mixture)  that we generate in openCV with cvRandArr function. For create data sample we need create to cvRandArr, one for x values and other for y values.</p>
+<blockquote><p>//Train sample class 1<br />
+cvGetRows( trainData, &amp;trainData1, 0, 100 );<br />
+cvGetCol( &amp;trainData1, &amp;colData1x, 0);<br />
+cvGetCol( &amp;trainData1, &amp;colData1y, 1);<br />
+cvRandArr( &amp;rng_state, &amp;colData1x, CV_RAND_NORMAL, cvScalar(200), cvScalar(50) );<br />
+cvRandArr( &amp;rng_state, &amp;colData1y, CV_RAND_NORMAL, cvScalar(200), cvScalar(50) );<br />
+//Train sample class 2<br />
+cvGetRows( trainData, &amp;trainData2, 100, 200 );<br />
+cvGetCol( &amp;trainData2, &amp;colData2x, 0);<br />
+cvGetCol( &amp;trainData2, &amp;colData2y, 1);<br />
+cvRandArr( &amp;rng_state, &amp;colData2x, CV_RAND_NORMAL, cvScalar(300), cvScalar(50) );<br />
+cvRandArr( &amp;rng_state, &amp;colData2y, CV_RAND_NORMAL, cvScalar(300), cvScalar(50) );<br />
+//Train sample class 3<br />
+cvGetRows( trainData, &amp;trainData3, 200, 300 );<br />
+cvGetCol( &amp;trainData3, &amp;colData3x, 0);<br />
+cvGetCol( &amp;trainData3, &amp;colData3y, 1);<br />
+cvRandArr( &amp;rng_state, &amp;colData3x, CV_RAND_NORMAL, cvScalar(100), cvScalar(30) );<br />
+cvRandArr( &amp;rng_state, &amp;colData3y, CV_RAND_NORMAL, cvScalar(400), cvScalar(30) );</p></blockquote>
+<p>Now we can train our classifier. In this basic tutorial, we go to use the <a title="Knn, K nearest neighbour" href="http://en.wikipedia.org/wiki/K-nearest_neighbor_algorithm" target="_blank">k nearest neighbour</a> classifier.</p>
+<p>This classifier is the most simplest but it's used in more cases. This algorithm classify an object by a majority vote of its nearest neighbors.</p>
+<p>Then we use CvKNearest openCV class</p>
+<blockquote><p>CvKNearest knn( trainData, trainClasses, 0, false, K );</p></blockquote>
+<p>Where first parameter is train data, second the classes, and last parameter is the nomber of k-neighbour value with maximum value is 32.</p>
+<p>Now we have in knn instance a k-nn classifier. Now if we want know in wich class is classified point only need call knn.find_nearest and return the nearest class.</p>
+<p>Then we go to classify a values for range [0,0] to [500,500] this our classifier, this is the result:</p>
+<p>Red points: Train data of class 1.<br />
+Green points: Train data of class 2.<br />
+Blue points: Train data of class 3.</p>
+<p>Red area: classify as class 1 with more than 5 neighbours in class 1<br />
+Light red area: classify as class 1 with less than 5 neighbours in class 1<br />
+Green area: classify as class 2 with more than 5 neighbours in class 2<br />
+Light green area: classify as class 2 with less than 5 neighbours in class 2<br />
+Blue area: classify as class 3 with more than 5 neighbours in class 3<br />
+Light blue area: classify as class 2 with less than 5 neighbours in class 2<br />
+Orange area: don't classify</p>
+<p><a href="http://blog.localhost/wp-content/uploads/2008/11/knn.jpg"><img class="aligncenter size-medium wp-image-90" title="knn" src="http://blog.localhost/wp-content/uploads/2008/11/knn-287x300.jpg" alt="" width="287" height="300" /></a></p>
+<p><a title="Demo source" href="http://www.artresnet.com/david/resource.jsp?f=9" target="_blank">Demo source</a></p>

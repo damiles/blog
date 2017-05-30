@@ -1,0 +1,38 @@
+---
+layout: post
+status: publish
+published: true
+title: Flash ActionScript3 and PayPal
+author:
+  display_name: damiles
+  login: admin
+  email: david.millan@damiles.com
+  url: ''
+author_login: admin
+author_email: david.millan@damiles.com
+wordpress_id: 6
+wordpress_url: http://blog.damiles.com/?p=6
+date: '2008-10-21 18:41:31 +0200'
+date_gmt: '2008-10-21 16:41:31 +0200'
+---
+<p>This is the most simply way to implement a paypal cart, this  cart only have 1 item, it can be a total price of cart and one description or 1 item and quantity of items to add to cart.</p>
+<p>You can find more info about the parameters to send to paypal in <a href="https://www.paypal.com/IntegrationCenter/ic_std-variable-reference.html#HTMLVariablesforShoppingCarts" target="_blank">his web</a></p>
+<blockquote><p>myButton.<span class="variable">addEventListener</span>(<span class="variable">MouseEvent.CLICK</span>,sendToPaypal);</p>
+<p>myButton.<span class="variable">buttonMode</span>=<span class="variable">true</span>;</p>
+<p><span class="variable">function</span> sendToPaypal(e:<span class="variable">Event</span>){</p>
+<div class="tabu"><span class="variable">var</span> paypalRequest:<span class="variable">URLRequest</span> =<span class="variable"> new URLRequest</span>(<span class="string">"https://www.paypal.com/es/cgi-bin/webscr"</span>);<span class="variable">var</span> variables:<span class="variable">URLVariables</span> = <span class="variable">new URLVariables</span>();</p>
+<p>variables.cmd=<span class="string">"_xclick"</span>;</p>
+<p>variables.business=<span class="string">"your-mail@business.com"</span>;</p>
+<p>variables.item_name=<span class="string">"Description"</span>;</p>
+<p>variables.quantity=number-itmes-to-buy;</p>
+<p>variables.currency_code=<span class="string">"EUR"</span>;</p>
+<p>variables.amount=price-item;</p>
+<p>paypalRequest.<span class="variable">data</span>= variables</p>
+<p>paypalRequest.<span class="variable">method</span>=<span class="string">"POST"</span>;</p>
+<p><span class="variable">try{</span></p>
+<div class="tabu">errorBox.<span class="variable">htmlText</span>=<span class="string">"Send data to Paypal"</span>;<span class="variable">navigateToURL</span>(paypalRequest);</div>
+<p>}<span class="variable">catch</span> (e:<span class="variable">Error</span>) {</p>
+<div class="tabu">errorBox.<span class="variable">htmlText</span>=<span class="string">"ERROR"</span>;errorBox.<span class="variable">htmlText</span>=e;</div>
+<p>}</p></div>
+</blockquote>
+<p>}</p>

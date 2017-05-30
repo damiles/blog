@@ -1,0 +1,19 @@
+---
+layout: post
+status: publish
+published: true
+title: Removing .svn folders from project
+author:
+  display_name: damiles
+  login: admin
+  email: david.millan@damiles.com
+  url: ''
+author_login: admin
+author_email: david.millan@damiles.com
+wordpress_id: 314
+wordpress_url: http://blog.damiles.com/?p=314
+date: '2011-06-02 18:49:27 +0200'
+date_gmt: '2011-06-02 16:49:27 +0200'
+---
+<p>A loft of times some people send me project with subversion, and when you  upload to production, sometime you don't want upload .svn folder, looking for in google i found this. A good miracle command for me XD, and sure a stupid command for a lot of people.</p>
+<p><span style="font-family: Consolas, Monaco, 'Courier New', Courier, monospace; font-size: 12px; line-height: 18px; white-space: pre;">rsync -r --exclude=.svn /home/user/progname/ /home/user/progname.copy</span></p>

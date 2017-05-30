@@ -1,0 +1,43 @@
+---
+layout: post
+status: publish
+published: true
+title: Compile Opencv with Mac os Snow Leopard 10.6
+author:
+  display_name: damiles
+  login: admin
+  email: david.millan@damiles.com
+  url: ''
+author_login: admin
+author_email: david.millan@damiles.com
+wordpress_id: 181
+wordpress_url: http://blog.damiles.com/?p=181
+date: '2009-09-08 15:47:41 +0200'
+date_gmt: '2009-09-08 13:47:41 +0200'
+---
+<p>Today i try install OpenCv in my MacOs Snow Leopard 10.6 and have this error:</p>
+<p><span> <span class="highlight">error</span>: <span class="highlight">CPU</span> <span class="highlight">you</span> <span class="highlight">selected</span> <span class="highlight">does</span> <span class="highlight">not</span> <span class="highlight">support</span> <span class="highlight">x86</span>-<span class="highlight">64</span> <span class="highlight">instruction</span> <span class="highlight">set</span></span></p>
+<p>The searching in google have the solution</p>
+<p>go to opencv folder and edit configure file, searchi prescott and replace the line</p>
+<p>DEFAULT_CXXFLAGS="-g -march=prescott -ffast-math -fomit-frame-pointer $DEFAULT_CXXFLAGS"</p>
+<p>with this:</p>
+<p>DEFAULT_CXXFLAGS="-g -march=i686 -m32 -ffast-math -fomit-frame-pointer $DEFAULT_CXXFLAGS"</p>
+<p>But when i try to compile i have other error i now looking for how to resolve it</p>
+<p><strong>Now i can install opencv lib with macport!!!<!--more--><br />
+</strong></p>
+<p>1.- i have old macport then first i need clean and delete it.</p>
+<pre lang="c">port installed &gt; myports.txt
+
+sudo port clean installed
+
+sudo port -f uninstall installed</pre>
+<p>2.- Install ports you need you can see myports.txt to know the old ports you have installed before clean.</p>
+<p>3.- Patch the opencv port: see http://trac.macports.org/ticket/21014 and download the patch <a title="View attachment" href="http://trac.macports.org/raw-attachment/ticket/21014/Portfile-sl_64bit_21014.diff">Portfile-sl_64bit_21014.diff</a></p>
+<p>4.- Follow the instruction in post of patch</p>
+<blockquote><p>Check where you installed <span class="searchword0">macport</span>s, that is usually /opt/local/ Locate the Portfile for <span class="searchword1">OpenCV</span>, for me that is at</p>
+<p>/opt/local/var/<span class="searchword0">macport</span>s/sources/rsync.macports.org/release/ports/graphics/<span class="searchword1">opencv</span></p>
+<p>now apply the third patch (Portfile-sl_64bit_21014.diff) by executing</p>
+<p>sudo patch Portfile -i ~/Downloads/Portfile-sl_64bit_21014.diff</p>
+<p>in the above directory (adjust the last path accordingly to your download location)</p>
+<p>When you execute port variants <span class="searchword1">opencv</span> you should see the sl_64bit_21014 variant. Now install opencv with</p>
+<p>sudo port install <span class="searchword1">opencv</span> +sl_64bit_21014</p></blockquote>

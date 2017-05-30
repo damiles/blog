@@ -1,0 +1,23 @@
+---
+layout: post
+status: publish
+published: true
+title: 'Mail Sent error 550 5.1.1 Recipient address rejected: User unknown in virtual
+  mailbox table'
+author:
+  display_name: damiles
+  login: admin
+  email: david.millan@damiles.com
+  url: ''
+author_login: admin
+author_email: david.millan@damiles.com
+wordpress_id: 379
+wordpress_url: http://blog.damiles.com/?p=379
+date: '2013-02-11 15:36:42 +0100'
+date_gmt: '2013-02-11 13:36:42 +0100'
+---
+<p>I have some webservers and hundred of domains, and the other day i create 4 domains for a customer, and 2 of the domains have in same machine the emails, and the other 2 in thirth party servers as Gmail o Yahoo, and when user send email from one of 2 servers to other externals server get this error:</p>
+
+<blockquote><p>Plesk NOQUEUE: reject: RCPT from localhost[127.0.0.1]: 550 5.1.1 : Recipient address rejected: User unknown in virtual mailbox table; gmail</p></blockquote>
+<p>I search for solution and the problem is that the server try to send email, but postfix and plesk configured the mail for external email in same server, and then don't work correctly, the solution is disable each mail internal server for external domain mail servers:</p>
+<blockquote><p>/usr/local/psa/bin/domain -u mydomain.com -mail_service false</p></blockquote>

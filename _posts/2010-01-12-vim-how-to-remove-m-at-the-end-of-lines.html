@@ -1,0 +1,22 @@
+---
+layout: post
+status: publish
+published: true
+title: VIM how to remove ^M at the end of lines
+author:
+  display_name: damiles
+  login: admin
+  email: david.millan@damiles.com
+  url: ''
+author_login: admin
+author_email: david.millan@damiles.com
+wordpress_id: 189
+wordpress_url: http://blog.damiles.com/?p=189
+date: '2010-01-12 10:37:17 +0100'
+date_gmt: '2010-01-12 08:37:17 +0100'
+---
+<p>In unix the end of line is different than other systems. More times we edit windows files and when open in VI/VIM we see the ^M character at end of lines.</p>
+<p>We can remove this characters with a simply search and replace of vim with this command:</p>
+<blockquote><p><code>:%s/^M//g</code></p></blockquote>
+<p>The ^M character is not valid write first ^ character and then M it's not the valid character. To write correctly this we must push <strong>Control+v </strong>and<strong> Contro+M</strong> keys, then appear our ^M Character.</p>
+<p>Take care with this.</p>

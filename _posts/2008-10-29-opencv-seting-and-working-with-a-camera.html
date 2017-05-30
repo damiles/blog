@@ -1,0 +1,26 @@
+---
+layout: post
+status: publish
+published: true
+title: OpenCV Seting and working with a camera
+author:
+  display_name: damiles
+  login: admin
+  email: david.millan@damiles.com
+  url: ''
+author_login: admin
+author_email: david.millan@damiles.com
+wordpress_id: 61
+wordpress_url: http://blog.damiles.com/?p=61
+date: '2008-10-29 19:42:38 +0100'
+date_gmt: '2008-10-29 17:42:38 +0100'
+---
+<p>Working in opencv with cameras is very easy, we only need a camera and our opencv libraries.</p>
+<p><a href="http://blog.localhost/wp-content/uploads/2008/10/webcam.jpg"><img class="aligncenter size-full wp-image-64" title="OpenCV camera capture" src="http://blog.localhost/wp-content/uploads/2008/10/webcam.jpg" alt="" width="340" height="225" /></a></p>
+<p>The structure that we store the camera link is CvCapture, here we store this link, then to get this link we need call to cvCaptureFromCAM function, this function need only one param, the index of the camera to be used. If there is only one camera or it does not matter what camera to use -1 may be passed.</p>
+<p>Then this is our basic line to retrive our camera link</p>
+<blockquote><p>CvCapture* capture = cvCaptureFromCAM( 0 );</p></blockquote>
+<p>Then we only need get each frame we can capture with cam, to do this we can use the cvQuetyFrame passing as param our camera link and it return a IplImage* struct that we can show.</p>
+<blockquote><p>IplImage* frame = cvQueryFrame( capture );</p></blockquote>
+<p>With this easy lines we can get all frames we need from our camera.</p>
+<p><a title="OpenCV camera demo Source" href="http://www.artresnet.com/david/resource.jsp?f=6" target="_blank">Demo source</a></p>

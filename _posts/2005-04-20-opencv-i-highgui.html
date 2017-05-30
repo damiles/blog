@@ -1,0 +1,61 @@
+---
+layout: post
+status: publish
+published: true
+title: OpenCV I - Highgui
+author:
+  display_name: damiles
+  login: admin
+  email: david.millan@damiles.com
+  url: ''
+author_login: admin
+author_email: david.millan@damiles.com
+wordpress_id: 25
+wordpress_url: http://blog.damiles.com/?p=25
+date: '2005-04-20 15:11:00 +0200'
+date_gmt: '2005-04-20 13:11:00 +0200'
+---
+<p>En este tutorial vamos ha explicar como comenzar ha trabajar con openCV, que es una librería de programación para visión por computador. Vamos a  introducir la creación de ventanas en openCV, así como la carga de un archivo de imagen.</p>
+<p>Para la creación de una ventana basta con llamar a la siguiente función:</p>
+<p><strong>int cvNamedWindow(const char* name, unsigned long flags);</strong></p>
+<p>A la que se le pasa como name una cadena de caracteres que identificará de froma única a nuestra ventana y servirá como titulo de nuestra ventana también. El segundo parametro define las propiedades de la ventana, CV_WINDOW_AUTOSIZE o 1 para ajustar la ventana a la imagen mostrada o 0 en otro caso.</p>
+<p>Una vez creada nuestra ventana, o ventanas para cargar una imagen simplemente debemos llamar a la función:</p>
+<p><strong> IplImage* cvLoadImage( const char* filename, int iscolor CV_DEFAULT(1));</strong></p>
+<p>Que como primer parámetro le pasaremos una cadena de caracteres de la imagen que queremos cargar, y como segundo parámetro un valor entero mayor que 0 si queremos que la imagen se carge con 3 canales (rojo, verde y azul), igual a 0 si queremos que se carge con un canal, en escala de grises, o menor que 0 si queremos que se carge según la cabecera del archivo. Los archivos soportados por OpenCV son: Windows bitmaps - BMP, DIB; JPEG files - JPEG, JPG, JPE; Portable Network Graphics - PNG; Portable image format - PBM, PGM, PPM; Sun rasters - SR, RAS; TIFF files - TIFF, TIF. El valor que devuelve esta función es un puntero a una estructura de una imagen (IplImage).</p>
+<p>Solo nos falta mostrar una imagen en nuestra ventana que hemos creado, esto se realiza de forma simple con la llamada a la función:</p>
+<p><strong>void cvShowImage( const char* name, const CvArr* image );</strong></p>
+<p>En la que se le pasa como primer parámetro una cadena de carácteres que identifican a la ventana donde queremos mostrar la imagen y como segundo parámetro la imagen que queremos mostrar.</p>
+<p>En el siguiente ejemplo vamos a cargar la misma imagen en rgb y en escala de grises y mostrarlas en dos ventanas distintas, el resultado lo podemos ver en la figura 1:</p>
+<blockquote><p>#include "highgui.h"</p>
+<p>#define ventana "Ventana1"</p>
+<p>#define ventana1 "Ventana2"<br />
+int main(int argc, char* argv[])</p>
+<p>{</p>
+<div class="tabu"><span class="comentario">//Comprobamos si han pasado una image como parametro, sino una por defecto</span></p>
+<p>char* filename = argc &gt;= 2 ? argv[1] : (char*)"lena.jpg";</p>
+<p><span class="comentario">//cargamos la imagen en RGB</span></p>
+<p>IplImage* imagen;</p>
+<p><span class="comentario">//(archivo,int a) a&gt;0:RGB; a=0:Escala Grises; a&lt;0:la de la imagen</span></p>
+<p>imagen=cvLoadImage(filename,1);</p>
+<p><span class="comentario">//Cargamos la imagen en Escala de grises</span></p>
+<p>IplImage* imagen1;</p>
+<p><span class="comentario">//(archivo,int a) a&gt;0:RGB; a=0:Escala Grises; a&lt;0:la de la imagen</span></p>
+<p>imagen1=cvLoadImage(filename,0);</p>
+<p>cvNamedWindow(ventana,0);</p>
+<p>cvNamedWindow(ventana1,0);</p>
+<p><span class="comentario">//Mostramos la imagen en la ventana</span></p>
+<p>cvShowImage(ventana,imagen);</p>
+<p>cvShowImage(ventana1,imagen1);</p>
+<p>for(;;)</p>
+<p>{</p>
+<div class="tabu">int key;</p>
+<p>key = cvWaitKey(0);</p>
+<p>if( key == 27 || key == 'q' || key == 'Q' ) // 'ESC', q o Q</p>
+<div class="tabu">break;</div>
+</div>
+<p>}</p>
+<p>cvDestroyAllWindows();<span class="comentario">//Destruimos todas las ventanas</span></p>
+<p>return 0;</p></div>
+<p>}</p></blockquote>
+<p align="center"><img class="imagenCentrada" src="http://www.damiles.com/tutorialesImg/openCV01/1.jpg" alt="figura 1" /><br />
+Figura 1</p>
