@@ -4,12 +4,19 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+[My CV on vizualize.me](http://www.vizualize.me/damiles)
 
-You can find the source code for the Jekyll new theme at:
-{% include icon-github.html username="jekyll" %} /
-[minima](https://github.com/jekyll/minima)
+I studied superior technical engineer of computer science at polytechnical university of Valencia (UPV). Now I'm growing my studies with a Artificial Intelligence, Pattern recognition and digital image Master.
 
-You can find the source code for Jekyll at
-{% include icon-github.html username="jekyll" %} /
-[jekyll](https://github.com/jekyll/jekyll)
+I specialliced in Computer vision, and digital image.
+
+I have experience with:
+* Computer Vision, OpenCV
+* Digital Image, OpenGL
+* Blender, and other comercial software as 3DSmax, Lightwave, Maya
+* Gimp, Photoshop
+* Web Design
+* Web Development
+* and more ...
+
+If you want anything about me, please send me mail: david.millan at damiles dot com.
