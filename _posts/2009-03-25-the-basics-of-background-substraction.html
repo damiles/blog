@@ -23,7 +23,7 @@ $$ \displaystyle{Sq(x,y)=\sum_{f=1}^N p(x,y)^2}$$</p>
 <p>$$\displaystyle{f=frame; N= total frames}$$</p>
 <p>Then the average is:</p>
 <p>$$ \displaystyle{M(x,y)=\frac{S(x,y)}{N}}$$</p>
-<p>[caption id="attachment_160" align="aligncenter" width="300" caption="BG substraction mean pixel"]<a href="http://blog.localhost/wp-content/uploads//2009/03/mean.jpg"><img class="size-medium wp-image-160" title="mean" src="http://blog.localhost/wp-content/uploads//2009/03/mean-300x210.jpg" alt="BG substraction mean pixel" width="300" height="210" /></a>[/caption]</p>
+<p>[caption id="attachment_160" align="aligncenter" width="300" caption="BG substraction mean pixel"]<a href="{{ site.url }}/assets/2009/03/mean.jpg"><img class="size-medium wp-image-160" title="mean" src="{{ site.url }}/assets/2009/03/mean-300x210.jpg" alt="BG substraction mean pixel" width="300" height="210" /></a>[/caption]</p>
 <p>And need the standar derivation for our statistical model:</p>
 <p>$$ \displaystyle{\sigma(x,y)=\sqrt{ \frac{Sq(x,y)}{N} - M(x,y)^2 }}$$</p>
 <p>Then, when we have our statistical background model, we can give a image and divide it in background and foreground, the pixels that are in foreground are the P(x,y) that met this condition:</p>
@@ -34,7 +34,7 @@ $$ \displaystyle{Sq(x,y)=\sum_{f=1}^N p(x,y)^2}$$</p>
 <p>Where $latex \displaystyle{ sigma(x,y)^2 }$ is</p>
 <p>$latex \displaystyle{\sigma(x,y)^2 = \frac{Sq(x,y)}{N} - M(x,y)^2 }$</p>
 <p>And $latex \displaystyle{ \lambda }$ is a constant or variable and we can set it to 3, it is the well-known "three sigmas" rule.</p>
-<p>[caption id="attachment_161" align="aligncenter" width="300" caption="BG substraction Standar derivation compare"]<a href="http://blog.localhost/wp-content/uploads//2009/03/sig.jpg"><img class="size-medium wp-image-161" title="sig" src="http://blog.localhost/wp-content/uploads//2009/03/sig-300x210.jpg" alt="BG substraction Standar derivation compare" width="300" height="210" /></a>[/caption]</p>
+<p>[caption id="attachment_161" align="aligncenter" width="300" caption="BG substraction Standar derivation compare"]<a href="{{ site.url }}/assets/2009/03/sig.jpg"><img class="size-medium wp-image-161" title="sig" src="{{ site.url }}/assets/2009/03/sig-300x210.jpg" alt="BG substraction Standar derivation compare" width="300" height="210" /></a>[/caption]</p>
 <p>Ok, then we now have the theory, then, we go to implement it.</p>
 <p>To develop it opencv give us some functions, cvAcc and cvSquareAcc</p>
 <pre lang="c">cvAcc(frame,acc,NULL);
@@ -53,7 +53,7 @@ cvMul(leftCond, leftCond, leftCond2, NULL);
 //Compare leftCondition &gt; lambda_sig2
 //to detect foreground.</pre>
 <p>Results:</p>
-<p><a href="http://blog.localhost/wp-content/uploads//2009/03/captura1.jpg"><img class="aligncenter size-medium wp-image-159" title="BG substraction capture" src="http://blog.localhost/wp-content/uploads//2009/03/captura1-300x121.jpg" alt="" width="300" height="121" /></a></p>
+<p><a href="{{ site.url }}/assets/2009/03/captura1.jpg"><img class="aligncenter size-medium wp-image-159" title="BG substraction capture" src="{{ site.url }}/assets/2009/03/captura1-300x121.jpg" alt="" width="300" height="121" /></a></p>
 <p>Note:<br />
 This code is an example and it's no completed.<br />
 In next tutorial a more advanced background substranction.</p>

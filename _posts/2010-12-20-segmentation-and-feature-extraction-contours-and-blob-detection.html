@@ -18,7 +18,7 @@ date_gmt: '2010-12-20 15:14:45 +0100'
 <p>In BasiOCR tutorial i explain  how to preprocess, extract features and clasify a handwritten number, and a lot of people ask me how to segment an image where contains several numbers or objects.</p>
 <p>In this tutorial I want explain how to segment an image and detect each object inside image, in this tutorial we can detect objects from plate (the numbers) or each object draw into a paper.</p>
 
-<p><a href="http://blog.localhost/wp-content/uploads//2010/12/result.jpg"><img class="aligncenter size-full wp-image-295" title="result" src="http://blog.localhost/wp-content/uploads//2010/12/result.jpg" alt="" width="434" height="127" /></a><!--more--></p>
+<p><a href="{{ site.url }}/assets/2010/12/result.jpg"><img class="aligncenter size-full wp-image-295" title="result" src="{{ site.url }}/assets/2010/12/result.jpg" alt="" width="434" height="127" /></a><!--more--></p>
 <p>We can define three steps to do this task: preprocess image, find countours, and calculate bounding rect. With this three steps we have each object separatly and then we can use each object to classify it with basicocr sample.</p>
 <p>For preprocessing task we use:</p>
 <ol>
@@ -54,7 +54,7 @@ date_gmt: '2010-12-20 15:14:45 +0100'
 //or<br />
 cvDrawContours( imagen_color, contourLow, color, color, -1, 0, 8, cvPoint(0,0) );</p>
 <p>[/c]</p>
-<p style="text-align: center;"><a href="http://blog.localhost/wp-content/uploads//2010/12/result1.png"><img class="aligncenter size-full wp-image-301" title="segmentation result" src="http://blog.localhost/wp-content/uploads//2010/12/result1.png" alt="" width="446" height="89" /></a></p>
+<p style="text-align: center;"><a href="{{ site.url }}/assets/2010/12/result1.png"><img class="aligncenter size-full wp-image-301" title="segmentation result" src="{{ site.url }}/assets/2010/12/result1.png" alt="" width="446" height="89" /></a></p>
 <p>Now we have each object differenciate, now we can use this to get characteristics to classificate, for example  the 7 invariant hu moments.</p>
 <p>[c]</p>
 <p>CvMoments moments;<br />

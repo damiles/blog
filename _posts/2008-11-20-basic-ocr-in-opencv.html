@@ -19,17 +19,17 @@ date_gmt: '2008-11-20 19:59:29 +0100'
 <p>In this tutorial we go to create a basic number OCR. It consist to classify a handwrite number into his class.</p>
 <p>To do it, we go to use all we learn in before tutorials, we go to use a simple <a title="Basic Painter" href="http://blog.localhost/?p=72" target="_blank">basic painter</a> and <a title="pattern recognition" href="http://blog.localhost/?p=84" target="_blank">the basic pattern recognition and classification with openCV</a> tutorial.</p>
 <p>In a typical pattern recognition classifier consist in three modules:</p>
-<p style="text-align: center;"><a href="http://blog.localhost/wp-content/uploads/2008/11/pr.gif"><img class="aligncenter size-full wp-image-94" title="Pattern recognition modules" src="http://blog.localhost/wp-content/uploads/2008/11/pr.gif" alt="" width="400" height="600" /></a></p>
+<p style="text-align: center;"><a href="{{ site.url }}/assets/2008/11/pr.gif"><img class="aligncenter size-full wp-image-94" title="Pattern recognition modules" src="{{ site.url }}/assets/2008/11/pr.gif" alt="" width="400" height="600" /></a></p>
 <p><!--more-->Preprocessing: in this module we go to process our input image, for example size normalize, convert color to BN...</p>
 <p>Feature extraction: in this module we convert our image processed to a characteristic vector of features to classify, it can be the pixels matrix convert to vector or get contour chain codes data representation</p>
 <p>Classification module get the feature vectors and train our system or classify an input feature vector with a classify method as knn.</p>
 <p>In this basic OCR we go to use this graph:</p>
-<p style="text-align: center;"><a href="http://blog.localhost/wp-content/uploads/2008/11/knnc-graph.jpg"><img class="aligncenter size-full wp-image-95" title="knnc-graph" src="http://blog.localhost/wp-content/uploads/2008/11/knnc-graph.jpg" alt="" width="400" height="500" /></a></p>
+<p style="text-align: center;"><a href="{{ site.url }}/assets/2008/11/knnc-graph.jpg"><img class="aligncenter size-full wp-image-95" title="knnc-graph" src="{{ site.url }}/assets/2008/11/knnc-graph.jpg" alt="" width="400" height="500" /></a></p>
 <p>Where we get a train set and test set of image to train and test our classifier method (knn)</p>
 <p>We have a 1000 handwrite images, 100 images of each number. We get 50 images of each number (class) to train and other 50 to test our system.</p>
-<p style="text-align: center;"><a href="http://blog.localhost/wp-content/uploads/2008/11/numbers.gif"><img class="aligncenter size-full wp-image-97" title="numbers" src="http://blog.localhost/wp-content/uploads/2008/11/numbers.gif" alt="" width="400" height="400" /></a></p>
+<p style="text-align: center;"><a href="{{ site.url }}/assets/2008/11/numbers.gif"><img class="aligncenter size-full wp-image-97" title="numbers" src="{{ site.url }}/assets/2008/11/numbers.gif" alt="" width="400" height="400" /></a></p>
 <p>Then the first work we do is pre-process all train image, to do it we create a preprocessing function. In this function we get a image and a new width and height we want as result of preprocessing, then the function return a normalized size with bounding box image. You can see more clear the process in this graph:</p>
-<p style="text-align: center;"><a href="http://blog.localhost/wp-content/uploads/2008/11/preprocesing.gif"><img class="aligncenter size-full wp-image-100" title="preprocesing" src="http://blog.localhost/wp-content/uploads/2008/11/preprocesing.gif" alt="" width="400" height="600" /></a></p>
+<p style="text-align: center;"><a href="{{ site.url }}/assets/2008/11/preprocesing.gif"><img class="aligncenter size-full wp-image-100" title="preprocesing" src="{{ site.url }}/assets/2008/11/preprocesing.gif" alt="" width="400" height="600" /></a></p>
 <p>Pre-processing code:</p>
 
 {% highlight c++ %}

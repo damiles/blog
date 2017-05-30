@@ -21,10 +21,10 @@ date_gmt: '2010-01-16 20:40:09 +0100'
 <p>In first moment, we can decide get the red channel of image  and get the values, if it's a higher value then we have a red pixel otherwise no.</p>
 <p>This is incorrect. Why?, imagine we have a pixel and in his red channel have a 255 value, this is the higher value, then we decide this is a red pixel, but if in green and blue channel have 255 value too then we have a white pixel instead a red pixel. Then how we determine if a pixel is red or no?</p>
 <p>Ok, we go to get some color values and determine how we decide if is red or no.</p>
-<p><a href="http://blog.localhost/wp-content/uploads//2010/01/colors.jpg"><img class="aligncenter size-full wp-image-206" title="colors" src="http://blog.localhost/wp-content/uploads//2010/01/colors.jpg" alt="" width="440" height="138" /></a></p>
+<p><a href="{{ site.url }}/assets/2010/01/colors.jpg"><img class="aligncenter size-full wp-image-206" title="colors" src="{{ site.url }}/assets/2010/01/colors.jpg" alt="" width="440" height="138" /></a></p>
 <p>Then we can decide that higher red value, and  lower values of blue and green can be defined as red color. Moreover the green and blue values don't have a higher difference between his values.</p>
 <p>We go to construct simple graph with some values to see better.</p>
-<p><a href="http://blog.localhost/wp-content/uploads//2010/01/histo_colors.jpg"><img class="aligncenter size-full wp-image-207" title="histo_colors" src="http://blog.localhost/wp-content/uploads//2010/01/histo_colors.jpg" alt="" width="300" height="325" /></a></p>
+<p><a href="{{ site.url }}/assets/2010/01/histo_colors.jpg"><img class="aligncenter size-full wp-image-207" title="histo_colors" src="{{ site.url }}/assets/2010/01/histo_colors.jpg" alt="" width="300" height="325" /></a></p>
 <p>We see in this graph that the red value is higher than a max value and there are a min value for green and blue.</p>
 <p>The min and max we go to name as blue green threshold and red threshold (bg_threshold, r_threshold).</p>
 <p>This code compute for each pixel if it's red or no, and create a black/white image, this is our segmentation image, and with this image we can use to label each object, we use a cvFindContours to retreive the contours of each object detected on our image.</p>
@@ -53,10 +53,10 @@ date_gmt: '2010-01-16 20:40:09 +0100'
  }<br />
 [/c]</p>
 <p>And this is the result, whe can see in the image a color border with detected red objects, the system detect two objects. The notebook and the notebook corner</p>
-<p><a href="http://blog.localhost/wp-content/uploads//2010/01/captura.jpg"><img class="aligncenter size-medium wp-image-217" title="captura" src="http://blog.localhost/wp-content/uploads//2010/01/captura-300x156.jpg" alt="" width="300" height="156" /></a><a href="http://www.artresnet.com/david/resource.jsp?f=13" target="_blank">Demo Source</a></p>
+<p><a href="{{ site.url }}/assets/2010/01/captura.jpg"><img class="aligncenter size-medium wp-image-217" title="captura" src="{{ site.url }}/assets/2010/01/captura-300x156.jpg" alt="" width="300" height="156" /></a><a href="http://www.artresnet.com/david/resource.jsp?f=13" target="_blank">Demo Source</a></p>
 <p>This is perfect to image segmentation by color, but imagine we have objects ofone image, and we want get each object and know if this object have a predominant red color or no.</p>
 <p>The theory is same but applied to the object histogram, and use the median to determine the thresholds</p>
-<p><a href="http://blog.localhost/wp-content/uploads//2010/01/histo_1.jpg"><img class="aligncenter size-full wp-image-218" title="histo_1" src="http://blog.localhost/wp-content/uploads//2010/01/histo_1.jpg" alt="" width="400" height="143" /></a></p>
+<p><a href="{{ site.url }}/assets/2010/01/histo_1.jpg"><img class="aligncenter size-full wp-image-218" title="histo_1" src="{{ site.url }}/assets/2010/01/histo_1.jpg" alt="" width="400" height="143" /></a></p>
 <p>But with this we don't have enough, because we can get a gray image as we can see in the second histogram, then we need use another parameter more, the dispersion of each channel.</p>
-<p><a href="http://blog.localhost/wp-content/uploads//2010/01/histo_2.jpg"><img class="aligncenter size-full wp-image-219" title="histo_2" src="http://blog.localhost/wp-content/uploads//2010/01/histo_2.jpg" alt="" width="400" height="185" /></a></p>
+<p><a href="{{ site.url }}/assets/2010/01/histo_2.jpg"><img class="aligncenter size-full wp-image-219" title="histo_2" src="{{ site.url }}/assets/2010/01/histo_2.jpg" alt="" width="400" height="185" /></a></p>
 <p>We can see that in this first histogram we can ensure this object have a predominant red, and in the second histogram no.</p>
