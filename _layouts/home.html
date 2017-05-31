@@ -4,12 +4,11 @@ layout: default
 
 <div class="home">
 
-  <h1 class="page-heading">Posts</h1>
   
-  {{ content }}
+  <h1 class="page-heading">Posts</h1>
 
   <ul class="post-list">
-    {% for post in site.posts %}
+    {% for post in paginator.posts %}
       <li>
         {% assign date_format = site.minima.date_format | default: "%b %-d, %Y" %}
         <span class="post-meta">{{ post.date | date: date_format }}</span>
@@ -20,11 +19,26 @@ layout: default
 
         {{ post.excerpt }}
         
-          <a class="" href="{{ post.url | relative_url }}">Read more</a>
+          <a class="btn btn-info" href="{{ post.url | relative_url }}">Read more</a>
       </li>
     {% endfor %}
   </ul>
 
   <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p>
 
+</div>
+
+<!-- Pagination links -->
+<div class="pagination">
+  {% if paginator.previous_page %}
+    <a class="btn btn-xs btn-primary" href="{{ paginator.previous_page_path }}" class="previous">Previous</a>
+  {% else %}
+    <span class="previous">Previous</span>
+  {% endif %}
+  <span class="page_number ">Page: {{ paginator.page }} of {{ paginator.total_pages }}</span>
+  {% if paginator.next_page %}
+    <a class="btn btn-xs btn-primary" href="{{ paginator.next_page_path }}" class="next">Next</a>
+  {% else %}
+    <span class="next ">Next</span>
+  {% endif %}
 </div>
