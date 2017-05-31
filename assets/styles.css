@@ -1,3 +1,17 @@
+body{
+	background-color: #f8f8f8;
+}
+.site-header {
+	 background-color:#fff;
+}
+.post-list > li {
+    margin-bottom: 30px;
+    /* border-bottom: 1px solid #eee; */
+    padding: 30px;
+    background: #fff;
+    border-radius: 5px;
+}
+
 .btn {
   display: inline-block;
   margin-bottom: 0;
