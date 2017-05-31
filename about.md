@@ -3,6 +3,8 @@ layout: page
 title: About
 permalink: /about/
 ---
+David Millán Escrivá
+
 <i class="fa fa-linkedin-square" aria-hidden="true"></i> [My linkedin](https://www.linkedin.com/in/damiles88/)
 
 <i class="fa fa-file-text-o" aria-hidden="true"></i> [My Resume](https://docs.google.com/document/d/1j4kJRXL4jOqo8c_ZquaRworL2evkxpWgA0hyGssFJEE/edit?usp=sharing)

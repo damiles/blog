@@ -2,6 +2,9 @@ body{
   font-family: 'Open Sans Condensed', sans-serif;
 	background-color: #f0f0f0;
   /*padding-top:60px;*/
+  background-image: url("/assets/bg_2.jpg");
+  background-repeat: no-repeat;
+  background-position: top center;
 }
 .site-header {
 	 background-color:#fff;
@@ -29,6 +32,9 @@ body{
 }
 h2 a.post-link{
   font-weight: bold;
+}
+.post-header{
+  margin-bottom: 0px;
 }
 .site-title{
   font-weight: bold;
