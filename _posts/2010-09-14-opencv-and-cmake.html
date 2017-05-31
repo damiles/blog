@@ -15,7 +15,8 @@ wordpress_url: http://blog.damiles.com/?p=286
 date: '2010-09-14 14:42:11 +0200'
 date_gmt: '2010-09-14 12:42:11 +0200'
 ---
-<p><a href="{{ site.url }}/assets/2010/09/opencvcmake.png"><img class="aligncenter size-full wp-image-308" title="opencvcmake" src="{{ site.url }}/assets/2010/09/opencvcmake.png" alt="" width="645" height="240" /></a>From OpenCV 2.1 version we can use CMake to create and manage our OpenCV projects.</p>
+<p><a href="{{ site.url }}/assets/2010/09/opencvcmake.png"><img class="aligncenter size-full wp-image-308" title="opencvcmake" src="{{ site.url }}/assets/2010/09/opencvcmake.png" alt="" width="645" height="240" /></a></p>
+<p>From OpenCV 2.1 version we can use CMake to create and manage our OpenCV projects.</p>
 <p><a title="CMake" href="http://www.cmake.org/" target="_blank">CMake</a> is a cross-platform and open-source build system, and it's used to control our compilation process, using a simple text files for define compilation process with independent platform and compiler.</p>
 
 <p>Thanks to CMake we can create our project in our operating system as linux compile and work in it, and then use it to compile a new version in other os as windows, osx, ..., even create a visual studio project, xcode project or eclipse.</p>
@@ -23,28 +24,28 @@ date_gmt: '2010-09-14 12:42:11 +0200'
 <!--more--><br />
 In this file we go to define the compiler process and his requeriments.</p>
 <p>First we need create a project name:</p>
-<p>[c language="++"]<br />
-PROJECT( project_name )<br />
-[/c]</p>
+{% highlight c++ %}
+PROJECT( project_name )
+{% endhighlight %}
 <p>We need find OpenCV libraries. OpenCV is required by our project and it's defined with REQUIRED statement:</p>
-<p>[c language="++"]<br />
-FIND_PACKAGE( OpenCV REQUIRED )<br />
-[/c]</p>
+{% highlight c++ %}
+FIND_PACKAGE( OpenCV REQUIRED )
+{% endhighlight %}
 <p>Then we must defined our executable, his  name and the dependent files, in our example only main.c, and we go to use the project name for the executable name. This name is stored in ${PROJECT_NAME} variable.</p>
-<p>[c language="++"]<br />
-ADD_EXECUTABLE( ${PROJECT_NAME} main.c )<br />
-[/c]</p>
+{% highlight c++ %}
+ADD_EXECUTABLE( ${PROJECT_NAME} main.c )
+{% endhighlight %}
 <p>To finish, we must link OpenCV to our executable, to do this only need call TARGET_LINK_LIBRARIES statement, with the project name and OpenCV library.</p>
-<p>[c language="++"]<br />
-TARGET_LINK_LIBRARIES( ${PROJECT_NAME} {OpenCV_LIBS} )<br />
-[/c]</p>
+{% highlight c++ %}
+TARGET_LINK_LIBRARIES( ${PROJECT_NAME} {OpenCV_LIBS} )
+{% endhighlight %}
 <p>The CMakeList.txt was defined, then we can compile our project. To do this only need create a directory where we want get our executable. Then  we call cmake with the directory where  CMakeList.txt and main.c files are saved.</p>
 <p>When cmake finish whe can call make to compile our project under unix.</p>
 <p>If we want create a VisualStudio project under Windows, only need open CMake Gui and select the source code and build directories and cmake detect our visualstudio version and with generate button create our VisualStudio project.</p>
 <p>Sample Code:</p>
-<p>[c language="++"]<br />
-PROJECT( Nombre_del_proyecto )<br />
-FIND_PACKAGE( OpenCV REQUIRED )<br />
-ADD_EXECUTABLE( ${PROJECT_NAME} main.c )<br />
-TARGET_LINK_LIBRARIES( ${PROJECT_NAME} {OpenCV_LIBS} )<br />
-[/c]</p>
+{% highlight c++ %}
+PROJECT( Nombre_del_proyecto )
+FIND_PACKAGE( OpenCV REQUIRED )
+ADD_EXECUTABLE( ${PROJECT_NAME} main.c )
+TARGET_LINK_LIBRARIES( ${PROJECT_NAME} {OpenCV_LIBS} )
+{% endhighlight %}

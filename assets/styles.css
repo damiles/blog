@@ -1,17 +1,38 @@
 body{
-	background-color: #f8f8f8;
+  font-family: 'Open Sans Condensed', sans-serif;
+	background-color: #f0f0f0;
+  /*padding-top:60px;*/
 }
 .site-header {
 	 background-color:#fff;
+  border-top: 5px solid #b112ac;
+   /*position: fixed;
+   width: 100%;
+   top:0;
+   -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.15);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.15);
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.15);*/
 }
 .post-list > li {
     margin-bottom: 30px;
     /* border-bottom: 1px solid #eee; */
     padding: 30px;
     background: #fff;
-    border-radius: 5px;
+    border-radius: 8px;
+    border: 1px solid #e8e8e8;
 }
-
+.page-heading{
+  font-style: italic;
+}
+.site-footer{
+  background: #fff;
+}
+h2 a.post-link{
+  font-weight: bold;
+}
+.site-title{
+  font-weight: bold;
+}
 .btn {
   display: inline-block;
   margin-bottom: 0;

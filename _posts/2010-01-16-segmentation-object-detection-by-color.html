@@ -29,32 +29,37 @@ date_gmt: '2010-01-16 20:40:09 +0100'
 <p>We see in this graph that the red value is higher than a max value and there are a min value for green and blue.</p>
 <p>The min and max we go to name as blue green threshold and red threshold (bg_threshold, r_threshold).</p>
 <p>This code compute for each pixel if it's red or no, and create a black/white image, this is our segmentation image, and with this image we can use to label each object, we use a cvFindContours to retreive the contours of each object detected on our image.</p>
-<p>[c language="++"]<br />
- for(y=0;yheight; y++)<br />
- {<br />
- red=((uchar*)(img-&gt;imageData + img-&gt;widthStep*y))[x*3+2];<br />
- green=((uchar*)(img-&gt;imageData + img-&gt;widthStep*y))[x*3+1];<br />
- blue=((uchar*)(img-&gt;imageData + img-&gt;widthStep*y))[x*3];<br />
- uchar* temp_ptr=&amp;((uchar*)(img_result_threshold-&gt;imageData + img_result_threshold-&gt;widthStep*y))[x];</p>
-<p> if((red&gt;threshold)&amp;&amp;(green &lt; BG_threshold) &amp;&amp; (blue &lt; BG_threshold) &amp;&amp; (abs(green-blue)&lt; BG_diff)){<br />
- temp_ptr[0]=255;//White to greater of threshold<br />
- }else{<br />
- temp_ptr[0]=0;//Black other<br />
- }<br />
- }<br />
- }</p>
-<p> cvMorphologyEx(img_result_threshold, img_morph, img_temp, NULL, CV_MOP_CLOSE, 6);</p>
-<p> cvNamedWindow( &quot;Threshold&quot;, 1 );<br />
- cvShowImage( &quot;Threshold&quot;, img_morph );</p>
-<p> cvFindContours( img_morph, storage, &amp;contour, sizeof(CvContour), CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE, cvPoint(0,0) );</p>
-<p> for( ; contour != 0; contour = contour-&gt;h_next )<br />
- {<br />
- CvScalar color = CV_RGB( rand()&amp;255, rand()&amp;255, rand()&amp;255 );<br />
- cvDrawContours( img, contour, color, color, -1, 3, 8, cvPoint(0,0) );<br />
- }<br />
-[/c]</p>
+
+{% highlight c++ %}
+for (y = 0; yheight; y++) {
+    red = ((uchar*)(img->imageData + img->widthStep * y))[x * 3 + 2];
+    green = ((uchar*)(img->imageData + img->widthStep * y))[x * 3 + 1];
+    blue = ((uchar*)(img->imageData + img->widthStep * y))[x * 3];
+    uchar* temp_ptr = &((uchar*)(img_result_threshold->imageData + img_result_threshold->widthStep * y))[x];
+
+    if ((red > threshold) && (green < BG_threshold) && (blue < BG_threshold) && (abs(green - blue) < BG_diff)) {
+        temp_ptr[0] = 255; //White to greater of threshold
+    }
+    else {
+        temp_ptr[0] = 0; //Black other
+    }
+}
+
+cvMorphologyEx(img_result_threshold, img_morph, img_temp, NULL, CV_MOP_CLOSE, 6);
+
+cvNamedWindow("Threshold", 1);
+cvShowImage("Threshold", img_morph);
+
+cvFindContours(img_morph, storage, &contour, sizeof(CvContour), CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE, cvPoint(0, 0));
+
+for (; contour != 0; contour = contour->h_next) {
+    CvScalar color = CV_RGB(rand() & 255, rand() & 255, rand() & 255);
+    cvDrawContours(img, contour, color, color, -1, 3, 8, cvPoint(0, 0));
+}
+{% endhighlight %}
+
 <p>And this is the result, whe can see in the image a color border with detected red objects, the system detect two objects. The notebook and the notebook corner</p>
-<p><a href="{{ site.url }}/assets/2010/01/captura.jpg"><img class="aligncenter size-medium wp-image-217" title="captura" src="{{ site.url }}/assets/2010/01/captura-300x156.jpg" alt="" width="300" height="156" /></a><a href="http://www.artresnet.com/david/resource.jsp?f=13" target="_blank">Demo Source</a></p>
+<p><a href="{{ site.url }}/assets/2010/01/captura.jpg"><img class="aligncenter size-medium wp-image-217" title="captura" src="{{ site.url }}/assets/2010/01/captura-300x156.jpg" alt="" width="300" height="156" /></a></p>
 <p>This is perfect to image segmentation by color, but imagine we have objects ofone image, and we want get each object and know if this object have a predominant red color or no.</p>
 <p>The theory is same but applied to the object histogram, and use the median to determine the thresholds</p>
 <p><a href="{{ site.url }}/assets/2010/01/histo_1.jpg"><img class="aligncenter size-full wp-image-218" title="histo_1" src="{{ site.url }}/assets/2010/01/histo_1.jpg" alt="" width="400" height="143" /></a></p>

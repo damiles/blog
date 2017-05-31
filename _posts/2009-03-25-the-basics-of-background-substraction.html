@@ -32,9 +32,9 @@ $$ \displaystyle{Sq(x,y)=\sum_{f=1}^N p(x,y)^2}$$</p>
 <p>For optimize a litle the operations we can use this for evaluate the condition:</p>
 <p>$$ \displaystyle{ {| M(x,y) - P(x,y) |}^2 \ge {(\lambda \sigma(x,y))}^2 }$$</p>
 <p>$$ \displaystyle{ {| M(x,y) - P(x,y) |}^2 \ge \lambda^2 \sigma(x,y)^2 }$$</p>
-<p>Where $latex \displaystyle{ sigma(x,y)^2 }$ is</p>
+<p>Where $ \displaystyle{ sigma(x,y)^2 }$ is</p>
 <p>$$ \displaystyle{\sigma(x,y)^2 = \frac{Sq(x,y)}{N} - M(x,y)^2 }$$</p>
-<p>And $$ \displaystyle{ \lambda }$$ is a constant or variable and we can set it to 3, it is the well-known "three sigmas" rule.</p>
+<p>And $ \displaystyle{ \lambda }$ is a constant or variable and we can set it to 3, it is the well-known "three sigmas" rule.</p>
 <p>BG substraction Standar derivation compare<a href="{{ site.url }}/assets/2009/03/sig.jpg"><img class="size-medium wp-image-161" title="sig" src="{{ site.url }}/assets/2009/03/sig-300x210.jpg" alt="BG substraction Standar derivation compare" width="300" height="210" /></a></p>
 <p>Ok, then we now have the theory, then, we go to implement it.</p>
 <p>To develop it opencv give us some functions, cvAcc and cvSquareAcc</p>
