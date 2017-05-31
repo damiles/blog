@@ -18,6 +18,7 @@ date_gmt: '2008-11-07 20:31:43 +0100'
 <p>In this basic tutorial we go to learn some basic instructions to work in OpenCV, mouse event, trackbar controler, create image, save image and draw basic circle.</p>
 <p style="text-align: center;"><a href="{{ site.url }}/assets/2008/11/basicpainter.jpg"><img class="aligncenter size-full wp-image-79" title="basicpainter" src="{{ site.url }}/assets/2008/11/basicpainter.jpg" alt="" width="400" height="214" /></a></p>
 <p>First step is create two windows, one is our canvas image, and other to color selector as we see in last tutorials.<!--more--></p>
+
 <blockquote><p>//Create window<br />
 cvNamedWindow( "Demo", 0 );<br />
 cvNamedWindow( "ColorSelector",0);</p></blockquote>
@@ -70,4 +71,3 @@ cvSet(imgColor, CV_RGB(red,green,blue),NULL);<br />
 #define CV_EVENT_FLAG_CTRLKEY   8<br />
 #define CV_EVENT_FLAG_SHIFTKEY  16<br />
 #define CV_EVENT_FLAG_ALTKEY    32</p></blockquote>
-<p><a title="Demo Source" href="http://www.artresnet.com/david/resource.jsp?f=8" target="_blank">Demo Source</a></p>

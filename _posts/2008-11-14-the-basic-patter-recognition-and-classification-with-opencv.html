@@ -22,6 +22,7 @@ date_gmt: '2008-11-14 11:06:57 +0100'
 CvRNG rng_state = cvRNG(-1);<br />
 CvMat* trainData = cvCreateMat( train_sample_count, 2, CV_32FC1 );<br />
 CvMat* trainClasses = cvCreateMat( train_sample_count, 1, CV_32FC1 );</p></blockquote>
+
 <p><!--more-->Where our 100 first data are class 1, the range 100 to 200 are class 2 and last 100 data are class 3, then we set our trainClasses matrix data:</p>
 <blockquote><p>cvGetRows( trainClasses, &amp;trainClasses1, 0, 100 );<br />
 cvSet( &amp;trainClasses1, cvScalar(1) );</p>

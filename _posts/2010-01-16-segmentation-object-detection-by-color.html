@@ -18,6 +18,7 @@ date_gmt: '2010-01-16 20:40:09 +0100'
 <p>In this tutorial i go to explain how to image segmentation or detect objects byred color, in this case by red color.</p>
 <p>This task is simple, but there are some things we must known.</p>
 <p>Now i go to explain and get a demo code for segmentation, how to determine if each image pixel is red or no, and then, i go to explain how we  can detect object, it's similar but with diferent concept.<!--more--></p>
+
 <p>In first moment, we can decide get the red channel of image  and get the values, if it's a higher value then we have a red pixel otherwise no.</p>
 <p>This is incorrect. Why?, imagine we have a pixel and in his red channel have a 255 value, this is the higher value, then we decide this is a red pixel, but if in green and blue channel have 255 value too then we have a white pixel instead a red pixel. Then how we determine if a pixel is red or no?</p>
 <p>Ok, we go to get some color values and determine how we decide if is red or no.</p>

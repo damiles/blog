@@ -17,6 +17,7 @@ date_gmt: '2009-09-08 13:47:41 +0200'
 ---
 <p>Today i try install OpenCv in my MacOs Snow Leopard 10.6 and have this error:</p>
 <p><span> <span class="highlight">error</span>: <span class="highlight">CPU</span> <span class="highlight">you</span> <span class="highlight">selected</span> <span class="highlight">does</span> <span class="highlight">not</span> <span class="highlight">support</span> <span class="highlight">x86</span>-<span class="highlight">64</span> <span class="highlight">instruction</span> <span class="highlight">set</span></span></p>
+
 <p>The searching in google have the solution</p>
 <p>go to opencv folder and edit configure file, searchi prescott and replace the line</p>
 <p>DEFAULT_CXXFLAGS="-g -march=prescott -ffast-math -fomit-frame-pointer $DEFAULT_CXXFLAGS"</p>

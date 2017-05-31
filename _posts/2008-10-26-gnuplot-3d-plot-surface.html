@@ -17,11 +17,12 @@ date_gmt: '2008-10-26 21:12:09 +0100'
 ---
 <p>For 3d plot gnuplot use command splot.</p>
 <blockquote><p>splot sin(sqrt((x*x+y*y)))/sqrt(x*x+y*y) t "weaves"</p></blockquote>
-<p>[caption id="attachment_37" align="aligncenter" width="300" caption="Gnuplot surface wireframe"]<a href="{{ site.url }}/assets/2008/10/ejemplo00.jpg"><img class="size-medium wp-image-37" title="ejemplo00" src="{{ site.url }}/assets/2008/10/ejemplo00-300x198.jpg" alt="Gnuplot surface wireframe" width="300" height="198" /></a>[/caption]</p>
+<p>Gnuplot surface wireframe<a href="{{ site.url }}/assets/2008/10/ejemplo00.jpg"><img class="size-medium wp-image-37" title="ejemplo00" src="{{ site.url }}/assets/2008/10/ejemplo00-300x198.jpg" alt="Gnuplot surface wireframe" width="300" height="198" /></a></p>
+
 <p>We can add the style pm3d to add a gradient surface texture</p>
 <blockquote><p>splot sin(sqrt((x*x+y*y)))/sqrt(x*x+y*y) with pm3d t "weaves"</p></blockquote>
-<p>[caption id="attachment_38" align="aligncenter" width="300" caption="Gnuplot surface 3d pm3d"]<a href="{{ site.url }}/assets/2008/10/ejemplo0.jpg"><img class="size-medium wp-image-38" title="ejemplo0" src="{{ site.url }}/assets/2008/10/ejemplo0-300x198.jpg" alt="Gnuplot surface 3d pm3d" width="300" height="198" /></a>[/caption]</p>
+<p>Gnuplot surface 3d pm3d<a href="{{ site.url }}/assets/2008/10/ejemplo0.jpg"><img class="size-medium wp-image-38" title="ejemplo0" src="{{ site.url }}/assets/2008/10/ejemplo0-300x198.jpg" alt="Gnuplot surface 3d pm3d" width="300" height="198" /></a></p>
 <p>But you can see we need more resolution, then we must set more isosamples:</p>
 <blockquote><p>set isosamples 75,75</p></blockquote>
-<p>[caption id="attachment_39" align="aligncenter" width="300" caption="Gnuplot surface with pm3d and isosample 75,75"]<a href="{{ site.url }}/assets/2008/10/ejemplo1.jpg"><img class="size-medium wp-image-39" title="ejemplo1" src="{{ site.url }}/assets/2008/10/ejemplo1-300x198.jpg" alt="Gnuplot surface with pm3d and isosample 75,75" width="300" height="198" /></a>[/caption]</p>
+<p>Gnuplot surface with pm3d and isosample 75,75<a href="{{ site.url }}/assets/2008/10/ejemplo1.jpg"><img class="size-medium wp-image-39" title="ejemplo1" src="{{ site.url }}/assets/2008/10/ejemplo1-300x198.jpg" alt="Gnuplot surface with pm3d and isosample 75,75" width="300" height="198" /></a></p>
 <p>For more info go to <a title="Gnuplot page" href="http://www.gnuplot.info/help.html" target="_blank">gnuplot page</a></p>
