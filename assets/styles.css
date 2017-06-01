@@ -5,6 +5,7 @@ body{
   background-image: url("/assets/bg_2.jpg");
   background-repeat: no-repeat;
   background-position: top center;
+  background-size: 100% 182px;
 }
 .site-header {
 	 background-color:#fff;
