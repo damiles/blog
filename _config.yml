@@ -24,6 +24,7 @@ twitter_username:  damiles3d
 github_username:  damiles
 disqus:
     shortname: damilesblog
+google_analytics: UA-4285540-5
 # Build settings
 markdown: kramdown
 theme: minima
