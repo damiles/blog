@@ -33,7 +33,7 @@ Then i start to debug... Any TensorFlow developer knows that debug on it is very
 
 {% highlight python %}
   profiler_hook = hooks.ProfilerHook(save_steps=10, output_dir=args.job_dir)
-  # more code
+
   classifier.train(input_fn=model.data_train_estimator, steps=20000, hooks=[profiler_hook])
 {% endhighlight %}
 
