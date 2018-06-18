@@ -16,6 +16,8 @@ date: '2018-06-18 07:59:29 +0100'
 date_gmt: '2018-06-18 07:59:29 +0100'
 ---
 
+![TFRecords performance](/assets/2018/performance-data-gs-tfrecords-init.png)
+
 TensorFlow is an awesome framework where deploy deeplearning. Actually i'm working very hard on it and exploring all benefits and powerful. Then i started to deploy the models on <a href="https://cloud.google.com" target="_blank">Google Cloud</a>. Google cloud is an awesome cloud solution where there are multiple services for all clouds needs. One of its tools very important for Deep Learning developers is <a href="https://cloud.google.com/ml-engine" target="_blank">Google Cloud Machine Learning</a> that allow train our models very cheaper in high performance computers.
 
 Then i put my hands to work on. As a computer vision developer i create my CSV file that store all file image uris and the class for each one. And following the tutorials, first i deploy and test the algorithm locally. All works fine and in few minutes i get the results. Then i started to deploy on the cloud and i upload all my png files and the CSV file for train and test to <a href="https://cloud.google.com/storage" target="_blank">Google Storage</a>.
