@@ -16,8 +16,4 @@ date: '2018-06-18 07:59:29 +0100'
 date_gmt: '2018-06-18 07:59:29 +0100'
 ---
 
-TensorFlow Records and Datasets:
-![Original image](/assets/2017/06/Lena_std.jpg)
-
-## The problem
-
+...
