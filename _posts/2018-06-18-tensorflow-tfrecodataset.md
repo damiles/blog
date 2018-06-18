@@ -32,9 +32,8 @@ After check that the google storage and google ML are on same region and are cor
 Then i start to debug... Any TensorFlow developer knows that debug on it is very complex and dificult then i thought that TensorFlow and Google can think on this and give some tool to inspect the performance of a TensorFlow code and... BANG there is a function to do it. My new friend is called <a href="https://www.tensorflow.org/api_docs/python/tf/train/ProfilerHook" target="_blank" >ProfilerHook</a>. And adding the small snippet of code to my code
 
 {% highlight python %}
-  profiler_hook = hooks.ProfilerHook(save_steps=10, output_dir=args.job_dir)
-
-  classifier.train(input_fn=model.data_train_estimator, steps=20000, hooks=[profiler_hook])
+profiler_hook = hooks.ProfilerHook(save_steps=10, output_dir=args.job_dir)
+classifier.train(input_fn=model.data_train_estimator, steps=20000, hooks=[profiler_hook])
 {% endhighlight %}
 
 First i test locally and get the first results and explore with chrome://tracing. All seems fine. Then upload to Google Cloud ML and wait, wait... and i have the first log on my google storage from profiler... and open it side by side to my local profiler to compare... See image to see the results:
